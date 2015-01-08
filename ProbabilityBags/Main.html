@@ -29,24 +29,24 @@
                         <label class="control-label" for="name">
                             Tipo do tumor:</label>
                         <div class="controls">
-                            <input id="type" name="type" type="text" placeholder="Type" class="input-medium">
+                            <input id="type" name="type" type="text" placeholder="Tipo" class="input-medium">
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label" for="name">
                             Idade:</label>
                         <div class="controls">
-                            <input id="age" name="age" type="text" placeholder="Age" class="input-small">
+                            <input id="age" name="age" type="text" placeholder="Idade" class="input-small">
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label" for="selectbasic">
-                            Faz/fez Quimeo?</label>
+                            Faz/fez Quimio?</label>
                         <div class="controls">
                             <select id="chemotherapy" name="chemotherapy" class="input-small">
-                                <option value="">Choose one...</option>
-                                <option value="S">Yes</option>
-                                <option value="N">No</option>
+                                <option value="">Escolha...</option>
+                                <option value="S">Sim</option>
+                                <option value="N">Não</option>
                             </select>
                         </div>
                     </div>
@@ -55,9 +55,9 @@
                             Faz/fez Radio?</label>
                         <div class="controls">
                             <select id="radiotherapy" name="radiotherapy" class="input-small">
-                                <option value="">Choose one...</option>
-                                <option value="S">Yes</option>
-                                <option value="N">No</option>
+                                <option value="">Escolha...</option>
+                                <option value="S">Sim</option>
+                                <option value="N">Não</option>
                             </select>
                         </div>
                     </div>
@@ -138,12 +138,12 @@
 
         (function (w) {
             var data = [
-                { type: "Brain", age: 21, chemotherapy: true, radiotherapy: false, cured: true },
-                { type: "Liver", age: 68, chemotherapy: false, radiotherapy: false, cured: true },
-                { type: "Bones", age: 4, chemotherapy: false, radiotherapy: false, cured: true },
-                { type: "Brain", age: 5, chemotherapy: true, radiotherapy: true, cured: true },
-                { type: "Brain", age: 4, chemotherapy: true, radiotherapy: true, cured: false },
-                { type: "Tongue", age: 12, chemotherapy: true, radiotherapy: true, cured: false }
+                { tipo: "Brain", idade: 21, quimio: true, radioterapia: false, curado: true },
+                { tipo: "Liver", idade: 68, quimio: false, radioterapia: false, curado: true },
+                { tipo: "Bones", idade: 4, quimio: false, radioterapia: false, curado: true },
+                { tipo: "Brain", idade: 5, quimio: true, radioterapia: true, curado: true },
+                { tipo: "Brain", idade: 4, quimio: true, radioterapia: true, curado: false },
+                { tipo: "Tongue", idade: 12, quimio: true, radioterapia: true, curado: false }
             ];
 
             function updateData(p) {
@@ -153,11 +153,11 @@
                 var d = "";
                 for (var dataIndex = 0; dataIndex < data.length; dataIndex++) {
                     d += "<p>";
-                    d += "<h4>" + data[dataIndex].type + "</h4>";
-                    d += "<p><span class='label'>Age</span> " + data[dataIndex].age + "</p>";
-                    d += "<p><span class='label'>Chemotherapy?</span> " + data[dataIndex].chemotherapy + "</p>";
-                    d += "<p><span class='label'>Radiotherapy</span> " + data[dataIndex].radiotherapy + "</p>";
-                    d += "<p><span class='label'>Cured?</span> " + data[dataIndex].cured + "</p>";
+                    d += "<h4>" + data[dataIndex].tipo + "</h4>";
+                    d += "<p><span class='label'>Idade</span> " + data[dataIndex].idade + "</p>";
+                    d += "<p><span class='label'>Quimio?</span> " + data[dataIndex].quimio + "</p>";
+                    d += "<p><span class='label'>Radioterapia</span> " + data[dataIndex].radioterapia + "</p>";
+                    d += "<p><span class='label'>Curado?</span> " + data[dataIndex].curado + "</p>";
                     d += "</p>";
                 }
                 $("#dataPane").html(d);
@@ -219,11 +219,11 @@
 
                 $("#btnFilter").click(function () {
                     var query = {
-                        type: $("#type").val() !== "" ? $("#type").val() : null,
-                        age: $("#age").val() !== "" ? parseInt($("#age").val()) : null,
-                        radiotherapy: $("#radiotherapy").val() !== "" ? $("#radiotherapy").val() === "Y" : null,
-                        cured: $("#cured").val() !== "" ? $("#cured").val() === "Y" : null,
-                        chemotherapy: $("#chemotherapy").val() !== "" ? $("#chemotherapy").val() === "Y" : null
+                        tipo: $("#type").val() !== "" ? $("#type").val() : null,
+                        idade: $("#age").val() !== "" ? parseInt($("#age").val()) : null,
+                        radioterapia: $("#radiotherapy").val() !== "" ? $("#radiotherapy").val() === "Y" : null,
+                        curado: $("#cured").val() !== "" ? $("#cured").val() === "Y" : null,
+                        quimio: $("#chemotherapy").val() !== "" ? $("#chemotherapy").val() === "Y" : null
                     };
 
                     var chances = pData.getChancesFor(query);
@@ -238,11 +238,11 @@
                         && $("#cured").val() !== "") {
 
                         var p = {
-                            type: $("#type").val(),
-                            age: parseInt($("#age").val()),
-                            radiotherapy: $("#radiotherapy").val() === "Y",
-                            cured: $("#cured").val() === "Y",
-                            chemotherapy: $("#chemotherapy").val() === "Y"
+                            tipo: $("#type").val(),
+                            idade: parseInt($("#age").val()),
+                            radioterapia: $("#radiotherapy").val() === "Y",
+                            curado: $("#cured").val() === "Y",
+                            quimio: $("#chemotherapy").val() === "Y"
                         };
 
                         updateData(p);
