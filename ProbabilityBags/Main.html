@@ -20,24 +20,24 @@
             <div class="span6 cinza">
                 <form class="form-horizontal">
                     <fieldset>
-                        <legend>Data controller</legend>
+                        <legend>Gerenciador de dados</legend>
 
                         <div class="control-group">
-                            <label class="control-label" for="name">Tumor type:</label>
+                            <label class="control-label" for="name">Tipo do tumor:</label>
                             <div class="controls">
                                 <input id="type" name="type" type="text" placeholder="Type" class="input-medium">
                             </div>
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label" for="name">Age:</label>
+                            <label class="control-label" for="name">Idade:</label>
                             <div class="controls">
                                 <input id="age" name="age" type="text" placeholder="Age" class="input-small">
                             </div>
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label" for="selectbasic">Chemotherapy?</label>
+                            <label class="control-label" for="selectbasic">Faz/fez Quimeo?</label>
                             <div class="controls">
                                 <select id="chemotherapy" name="chemotherapy" class="input-small">
                                     <option value="">Choose one...</option>
@@ -48,7 +48,7 @@
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label" for="selectbasic">Radiotherapy?</label>
+                            <label class="control-label" for="selectbasic">Faz/fez Radio?</label>
                             <div class="controls">
                                 <select id="radiotherapy" name="radiotherapy" class="input-small">
                                     <option value="">Choose one...</option>
@@ -59,67 +59,67 @@
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label" for="selectbasic">Cured?</label>
+                            <label class="control-label" for="selectbasic">Curado?</label>
                             <div class="controls">
                                 <select id="cured" name="cured" class="input-small">
-                                    <option value="">Choose one...</option>
-                                    <option value="S">Yes</option>
-                                    <option value="N">No</option>
+                                    <option value="">Escolha...</option>
+                                    <option value="S">Sim</option>
+                                    <option value="N">Não</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="control-group">
                             <div class="controls">
-                                <button id="btnSave" name="btnSave" class="btn btn-success">Save data</button>
+                                <button id="btnSave" name="btnSave" class="btn btn-success">Salvar</button>
                             </div>
                         </div>
                     </fieldset>
                 </form>
                 <div class="form-horizontal">
                     <div class="control-group controls-row">
-                        <label class="control-label" for="btnBuscar">Ready to filter?</label>
+                        <label class="control-label" for="btnBuscar">Filtrar?</label>
                         <div class="controls">
-                            <button id="btnFilter" name="btnFilter" class="btn btn-primary">Gather data</button>
+                            <button id="btnFilter" name="btnFilter" class="btn btn-primary">Obter dados</button>
                         </div>
                     </div>
                 </div>
                 <div class="form-horizontal">
                     <div class="control-group controls-row">
-                        <label class="control-label" for="btnBuscar">Start over?</label>
+                        <label class="control-label" for="btnBuscar">Reiniciar?</label>
                         <div class="controls">
-                            <button id="btnClearData" name="btnClearData" class="btn btn-danger">Clear datasets</button>
+                            <button id="btnClearData" name="btnClearData" class="btn btn-danger">Reiniciar dados</button>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="span5 cinza">
                 <ul class="nav nav-tabs">
+                    <li>
+                        <a href="#tab1" data-toggle="tab">Resultado</a>
+                    </li>
+                    <li>
+                        <a href="#tab2" data-toggle="tab">Dados indexados</a>
+                    </li>
                     <li class="active">
-                        <a href="#tab1" data-toggle="tab">Result</a>
-                    </li>
-                    <li>
-                        <a href="#tab2" data-toggle="tab">Indexed data</a>
-                    </li>
-                    <li>
-                        <a href="#tab3" data-toggle="tab">View current graph
+                        <a href="#tab3" data-toggle="tab">Grafo dos dados
 
                         </a>
                     </li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab1">
-                        <p>Fill any of the fields on the left side and hit "Gather data"!</p>
+                        <p>Entre com filtros no painel ao lado e clique em "Obter dados"!</p>
                     </div>
                     <div class="tab-pane" id="tab2">
                         <div id="dataPane">
-                            <p>Nothing yet</p>
+                            <p>Nenhum dado indexado</p>
                         </div>
                     </div>
                     <div class="tab-pane" id="tab3">
                         <button id="btnUpdateGraph" name="btnUpdateGraph" class="btn btn-primary">Update graph</button><br />
                         <div id="theGraph">
-                            <p>Building...</p>
+                            <p>Criando grafo...</p>
                         </div>
                     </div>
                 </div>
@@ -225,7 +225,7 @@
                     };
 
                     var chances = pData.getChancesFor(query);
-                    $("#tab1").html(plot(chances));
+                    $("#tab1").html(plot(chances)).click();
                 });
 
                 $("#btnSave").click(function () {
@@ -244,11 +244,11 @@
                         };
 
                         updateData(p);
-                        $("#msgData").html("<strong>Ok!</strong> Data was saved!.");
+                        $("#msgData").html("<strong>Ok!</strong> Dados salvos com sucesso!.");
                         $("#result").attr("class", "").addClass("alert alert-success").show();
                     }
                     else {
-                        $("#msgData").html("<strong>Ops!</strong> Something's missing.");
+                        $("#msgData").html("<strong>Ops!</strong> Está faltando alguma informação.");
                         $("#result").attr("class", "").addClass("alert alert-error").show();
                     }
                     event.preventDefault();
