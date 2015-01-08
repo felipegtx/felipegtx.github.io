@@ -52,7 +52,7 @@
                 }
                 else {
                     loadedLibs[fileName] = true;
-                    var requiredLibPath = (basePath != undefined ? basePath + "/" : "libs/") + fileName + ".js";
+                    var requiredLibPath = (basePath != undefined ? basePath + "/" : "./libs/") + fileName + ".js";
                     $.ajax(requiredLibPath, {
                         async: false,
                         dataType: "script",
