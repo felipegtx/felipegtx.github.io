@@ -1,0 +1,143 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title></title>
+    <style>
+        table tr td
+        {
+            height: 2px;
+        }
+
+        #d
+        {
+            font-size: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div id="d"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            var imageHeight = 100,
+                imageWidth = 30,
+                vazio = '',
+                canvas = document.createElement('canvas'),
+                alturaLetra = (imageHeight - 50),
+                context = canvas.getContext('2d');
+
+            canvas.width = imageWidth;
+            canvas.height = imageHeight;
+
+            var resultBuilder = function () {
+                /// <summary>
+                ///     Armazena e formata as informações retiradas de dentro do canvas
+                /// </summary>
+
+                var resultado = '<table>',
+                    linhas = {};
+
+                function linhaValida(dados) {
+                    /// <summary>Verifica se a linha possui algum caractere que deva ser exibido</summary>
+
+                    for (var i = 0, uBound = dados.length; i < uBound; i++) {
+                        if (dados[i] !== vazio) { return true; }
+                    }
+                    return false;
+                }
+
+                return {
+                    Add: function (nroLinha, data) {
+                        /// <summary>
+                        /// Adiciona uma informação qualquer ao array de dados de uma linha específica
+                        /// </summary>
+
+                        if (!linhas[nroLinha]) { linhas[nroLinha] = []; }
+                        linhas[nroLinha].push(data);
+                    },
+                    Close: function (nroLinha) {
+                        /// <summary>
+                        /// Formata e encerra a linha em questão
+                        /// </summary>
+
+                        if (linhas[nroLinha]) {
+                            var dado = vazio,
+                                dados = linhas[nroLinha];
+                            if (linhaValida(dados)) {
+                                resultado += '<tr>';
+                                for (var i = 0, uBound = dados.length; i < uBound; i++) {
+                                    resultado += '<td ' + (((dado = dados[i]) === vazio)
+                                        ? '>&nbsp;'
+                                        : ' style=\'background-color:gray\'>' + dado) + '</td>';
+                                }
+                                resultado += '</tr>';
+                            }
+                        }
+                    },
+                    Done: function () {
+                        /// <summary>
+                        /// Retorna as informações formatadas contidas neste objeto
+                        /// </summary>
+
+                        return resultado + '</table>';
+                    }
+                };
+            };
+
+
+            function toASCII(letra) {
+                /// <summary>
+                /// Reproduz a imagem do Canvas como ASCII art
+                /// </summary>
+
+                var uLetra = letra.toUpperCase(),
+                    imageData = context.getImageData(0, 0, imageWidth, imageHeight),
+                    data = imageData.data,
+                    builder = resultBuilder();
+
+                for (var y = 0; y < imageHeight; y++) {
+                    for (var x = 0; x < imageWidth; x++) {
+
+                        var red = data[((imageWidth * y) + x) * 4],
+                            green = data[((imageWidth * y) + x) * 4 + 1],
+                            blue = data[((imageWidth * y) + x) * 4 + 2];
+
+                        if ((red === 0) && (green === 0) && (blue === 0)) {
+                            builder.Add(y, letra);
+                        } else {
+                            builder.Add(y, vazio);
+                        }
+
+                    }
+                    builder.Close(y);
+                }
+                document.getElementById('d').innerHTML = builder.Done();
+            }
+
+            document.addEventListener('keypress', function (e) {
+
+                /// Identifica keyCode digitado
+                var keyCode = e.keyCode || e.charCode;
+
+                /// Reset conteúdo do canvas
+                canvas.width = canvas.width;
+
+                /// Inicializa alguma cor para o fundo para facilitar a identificação dos px preenchidos
+                /// pela letra
+                context.fillStyle = 'rgb(255, 255, 255)';
+                context.fillRect(0, 0, imageWidth, imageHeight);
+                context.fillStyle = 'black';
+                context.font = 'bold ' + alturaLetra + 'px sans-serif';
+
+                /// 'Desenha' no canvas a base que será utilizada para geração do ASCII art
+                var letra = String.fromCharCode(keyCode);
+                context.fillText(letra, 0, alturaLetra);
+
+                /// Efetivamente transforma a informação do canvas em ASCII art
+                toASCII(letra.toLowerCase());
+            });
+
+        });
+    </script>
+</body>
+</html>
