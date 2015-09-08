@@ -25,10 +25,15 @@
                     Drag a node (using either your mouse
                     <kbd>right click</kbd> or holding down the <kbd>control</kbd> key) and move it over another to create a link
                 </li>
+                <li class="list-group-item">
+                    <strong> For this example:</strong><br />
+                    As a sample of the filtering functionality, only <code>squares</code> can be used as target element.
+                    You can change this as you need by changing the <code><a href="http://felipegtx.github.io/Raska/docs/classes/circle.html#method-canLink" target="_blank">canLink</a></code> method.
+                </li>
                 <li class="list-group-item">Dependency graph outputs the JSON to browser' console</li>
                 <li class="list-group-item">
                     You can find the docs
-                    <a href="http://felipegtx.github.io/Raska/docs/Index.html" target="_blank">
+                    <a href="http://felipegtx.github.io/Raska/docs/index.html" target="_blank">
                         <strong>in here</strong>
                     </a>
                 </li>
@@ -46,9 +51,9 @@
         <div class="form-inline">
             <div class="form-group">
                 <label for="elementGraph">Element graph:</label>
-                <textarea class="form-control" id="elementGraph">[{"name":"circle__335f20fff5b4d46bcb929f2ca4e9bde8","border":{"color":"red","active":true,"width":4},"fillColor":"black","radius":20,"graphNode":true,"position":0,"x":50,"y":50,"linksTo":["square__66083fd4812a0d9b5e2308c88fd6545e"],"childElements":["label__370eb0431def67307edcc6ebdde0ccf9"],"parent":null,"type":"circle"},{"name":"label__370eb0431def67307edcc6ebdde0ccf9","graphNode":false,"text":"Start","color":"white","x":0,"y":0,"border":{"color":"red","active":true,"width":4},"font":{"family":"Tahoma","size":"12px"},"position":0,"linksTo":[],"childElements":[],"parent":"circle__335f20fff5b4d46bcb929f2ca4e9bde8","type":"label"},{"name":"square__66083fd4812a0d9b5e2308c88fd6545e","border":{"color":"gray","active":true,"width":4},"fillColor":"silver","dimensions":{"width":30,"height":50},"globalAlpha":1,"graphNode":true,"position":0,"x":208.47880299251872,"y":35.880398671096344,"linksTo":["square__891c9ef15746cfceb6864abf8a4975ee"],"childElements":["label__1bf65eeacc3d8a52136c0676100c2eef"],"parent":null,"type":"square"},{"name":"label__1bf65eeacc3d8a52136c0676100c2eef","graphNode":false,"text":"Do something","color":"white","x":0,"y":0,"border":{"color":"red","active":true,"width":4},"font":{"family":"Tahoma","size":"12px"},"position":0,"linksTo":[],"childElements":[],"parent":"square__66083fd4812a0d9b5e2308c88fd6545e","type":"label"},{"name":"square__891c9ef15746cfceb6864abf8a4975ee","border":{"color":"gray","active":true,"width":4},"fillColor":"silver","dimensions":{"width":30,"height":50},"globalAlpha":1,"graphNode":true,"position":0,"x":349.1271820448878,"y":38.87043189368771,"linksTo":["circle__31b377eff05e1d62ae3d944b6a29fc6a"],"childElements":["label__e64fb0631be6115b5ec7284819039c5f"],"parent":null,"type":"square"},{"name":"label__e64fb0631be6115b5ec7284819039c5f","graphNode":false,"text":"Do something else","color":"white","x":0,"y":0,"border":{"color":"red","active":true,"width":4},"font":{"family":"Tahoma","size":"12px"},"position":0,"linksTo":[],"childElements":[],"parent":"square__891c9ef15746cfceb6864abf8a4975ee","type":"label"},{"name":"circle__31b377eff05e1d62ae3d944b6a29fc6a","border":{"color":"red","active":true,"width":4},"fillColor":"black","radius":20,"graphNode":true,"position":0,"x":527.6807980049875,"y":58.80398671096346,"linksTo":[],"childElements":["label__8ec01bf10ed45ec86e0477cb197e8919"],"parent":null,"type":"circle"},{"name":"label__8ec01bf10ed45ec86e0477cb197e8919","graphNode":false,"text":"Done","color":"white","x":0,"y":0,"border":{"color":"red","active":true,"width":4},"font":{"family":"Tahoma","size":"12px"},"position":0,"linksTo":[],"childElements":[],"parent":"circle__31b377eff05e1d62ae3d944b6a29fc6a","type":"label"}]</textarea>
-                <button class="btn btn-default" onclick="getGraph();">Get dependency graph</button>
-                <button class="btn btn-default" onclick="loadGraph();">Load dependency graph</button>
+                <textarea class="form-control" id="elementGraph"></textarea>
+                <button class="btn btn-primary" onclick="getGraph();">Get dependency graph</button>
+                <button class="btn btn-info" onclick="loadGraph();">Load dependency graph</button>
             </div>
         </div>
         <br />
@@ -126,11 +131,16 @@
         }
 
         function loadGraph() {
-            var elementGraph = document.getElementById("elementGraph").value;
-            if (elementGraph !== "") {
-                raska.loadElementsFrom(elementGraph);
+            try {
+                var elementGraph = document.getElementById("elementGraph").value;
+                if (elementGraph !== "") {
+                    raska.loadElementsFrom(elementGraph);
+                }
+            } catch (e) {
+                alert("It was not possible to import the graph. - " + e.message);
             }
         }
+
     </script>
 </body>
 </html>
