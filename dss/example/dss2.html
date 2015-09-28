@@ -1,0 +1,33 @@
+﻿
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="style2.css" dss-enabled />
+</head>
+<body>
+
+    <div class="box"></div>
+
+    <script src="../dist/dss.js"></script>
+
+    <script>
+
+        var getRandomColor = function () {
+            var letters = '0123456789ABCDEF'.split('');
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+
+        window.setInterval(function () {
+            dss.setProperty('companyColor', getRandomColor());
+        }, 300);
+
+    </script>
+
+</body>
+</html>
