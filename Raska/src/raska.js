@@ -788,6 +788,22 @@
             $linksFrom = [],
 
             /**
+             * Holds the reference to the delegate triggered before a link gets removed from an element
+             * @property $beforeRemoveLinkFrom
+             * @type function
+             * @default null
+             */
+            $beforeRemoveLinkFrom = null,
+
+            /**
+             * Holds the reference to the delegate triggered before a link gets removed to an element
+             * @property $beforeRemoveLinkTo
+             * @type function
+             * @default null
+             */
+            $beforeRemoveLinkTo = null,
+
+            /**
              * Points to series of child Raska element (if any) that, usually, are contained inside this node
              *
              * @private
@@ -997,8 +1013,24 @@
             removeLinkTo: function (element) {
                 if ($linksTo.indexOf(element) > -1) {
                     $linksTo.splice($linksTo.indexOf(element), 1);
+                    if (_helpers.$obj.isType($beforeRemoveLinkFrom, "function") === true) {
+                        $beforeRemoveLinkFrom.call(this, element);
+                    }
                     element.removeLinkFrom(this);
                 }
+                return this;
+            },
+
+            /**
+            * Event triggered before a link gets removed from this element
+            * 
+            * @method beforeRemoveLinkFrom
+            * @param {function} doWhat A delegate with the 'this' poiting to this instance and the first 
+            *                           paramenter being the reference to the element which is being remove as a link to this instance
+            * @chainable
+            */
+            beforeRemoveLinkFrom: function (doWhat) {
+                $beforeRemoveLinkFrom = doWhat;
                 return this;
             },
 
@@ -1051,8 +1083,24 @@
             removeLinkFrom: function (element) {
                 if ($linksFrom.indexOf(element) > -1) {
                     $linksFrom.splice($linksFrom.indexOf(element), 1);
+                    if (_helpers.$obj.isType($beforeRemoveLinkTo, "function") === true) {
+                        $beforeRemoveLinkTo.call(this, element);
+                    }
                     element.removeLinkTo(this);
                 }
+                return this;
+            },
+
+            /**
+            * Event triggered before a link gets removed to this element
+            * 
+            * @method beforeRemoveLinkTo
+            * @param {function} doWhat A delegate with the 'this' poiting to this instance and the first 
+            *                           paramenter being the reference to the element which is being remove as a link from this instance
+            * @chainable
+            */
+            beforeRemoveLinkTo: function (doWhat) {
+                $beforeRemoveLinkTo = doWhat;
                 return this;
             },
 
