@@ -65,8 +65,8 @@
                                    _canvasPaletteContext.fillText("Sempre linda!", 430, 460);
                                     _canvasPaletteContext.font = "25px Kaushan Script";
                                    _canvasPaletteContext.strokeStyle = "black";
-                                   _canvasPaletteContext.strokeText("Feliz Aniversário", 510, 490);
-                                   _canvasPaletteContext.fillText("Feliz Aniversário", 510, 490);
+                                   _canvasPaletteContext.strokeText("Feliz Aniversário", 510, 500);
+                                   _canvasPaletteContext.fillText("Feliz Aniversário", 510, 500);
 
                                    //d.querySelector("body").style.backgroundImage =
                                    //    "url(" + _canvasPalette.toDataURL("image/png") + ")";
