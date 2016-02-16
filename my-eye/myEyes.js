@@ -55,7 +55,7 @@
                                    _canvasPaletteContext.lineWidth = 3;
                                    _canvasPaletteContext.fillStyle = "white";
                                    _canvasPaletteContext.fillText("pelos.meus.olhos", img.width / 3, img.height - 30);
-                                   _canvasPaletteContext.fillText("você.é.perfeita.em.todos.os.pixels", img.width / 3, img.height);
+                                   _canvasPaletteContext.fillText("você.é.perfeita.em.cada.pixel", img.width / 3, img.height);
 
                                    //d.querySelector("body").style.backgroundImage =
                                    //    "url(" + _canvasPalette.toDataURL("image/png") + ")";
