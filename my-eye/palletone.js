@@ -29,5 +29,8 @@ self.addEventListener("message", function (e) {
     if (cmap) {
         self.postMessage({ x: e.data.x, y: e.data.y, palette: cmap.palette()[0] });
     }
+    delete colorData;
+    delete colors;
+    delete cmap;
 
 }, false);

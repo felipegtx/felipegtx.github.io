@@ -25,17 +25,12 @@
                            blinkTo: function (img, mozaicPieces, then) {
 
                                mozaicPieces = mozaicPieces || 5;
-                               var mozaicHSize = img.height / mozaicPieces,
-                                   mozaicWSize = img.width / mozaicPieces,
+                               var mozaicHSize = Math.trunc(img.height / mozaicPieces),
+                                   mozaicWSize = Math.trunc(img.width / mozaicPieces),
                                    worker = new Worker(location.protocol + "//" + location.host + "/my-eye/palletone.js"),
                                    imageData = null;
 
                                worker.addEventListener("message", function (event) {
-
-                                   /// This alow us to erase all paths and work with the canvas as if it was blank for the next iteration
-                                   var image = _canvasPaletteContext.getImageData(0, 0, _canvasPalette.width, _canvasPalette.height);
-                                   _canvasPaletteContext.clearRect(0, 0, _canvasPalette.width, _canvasPalette.height);
-                                   _canvasPaletteContext.putImageData(image, 0, 0);
 
                                    if (event.data === "DONE") {
 
@@ -48,28 +43,39 @@
 
                                    var color = event.data.palette;
                                    _canvasPaletteContext.beginPath();
-                                   _canvasPaletteContext.rect(event.data.x, event.data.y,
-                                       mozaicWSize, mozaicHSize);
-                                   _canvasPaletteContext.fillStyle = "rgb(" + color[0] + "," + color[1] + "," + color[2] + ")";
-                                   _canvasPaletteContext.lineWidth = 1;
+                                   _canvasPaletteContext.lineWidth = mozaicWSize;
                                    _canvasPaletteContext.strokeStyle = "rgb(" + color[0] + "," + color[1] + "," + color[2] + ")";
-                                   _canvasPaletteContext.globalAlpha = 1;
-                                   _canvasPaletteContext.fill();
+                                   _canvasPaletteContext.lineJoin = _canvasPaletteContext.lineCap = 'square';
+                                   _canvasPaletteContext.moveTo(event.data.x, event.data.y);
+                                   _canvasPaletteContext.lineTo(event.data.x, event.data.y + 1);
                                    _canvasPaletteContext.stroke();
+                                   _canvasPaletteContext.closePath();
 
                                }, false);
 
-                               for (var x = 0; x < img.width; x += mozaicWSize) {
-                                   for (var y = 0; y < img.height; y += mozaicHSize) {
+                               var x = 0, y = 0;
+                               function requestChain() {
+                                   if (x <= img.width) {
+                                       if (y > img.height) {
+                                           x += mozaicWSize;
+                                           y = 0;
+                                       }
+                                       y += mozaicHSize;
                                        worker.postMessage({
                                            x: x,
                                            y: y,
                                            imageData: canvasContext.getImageData(x, y, mozaicWSize, mozaicHSize).data
                                        });
+                                       $this.requestAnimationFrame(requestChain);
+                                   }
+                                   else {
+                                       worker.postMessage("DONE");
                                    }
                                }
 
-                               worker.postMessage("DONE");
+                               /// This implementation frees the main thread by using the request animation frame to schedule new
+                               /// pixel color information
+                               requestChain();
 
                                return _this;
                            }
@@ -104,13 +110,15 @@
             loadImageOntoCanvas(images[currentImageIndex++], function (img) {
                 myEyes
                     .blinkTo(img, 10, function () {
-                        myEyes.blinkTo(img, 100, function () {
-                            myEyes.blinkTo(img, 200, function () {
-                                canvas.style.display = "";
-                                if (timeout !== null) {
-                                    $this.clearTimeout(timeout);
-                                }
-                                timeout = $this.setTimeout(loadImage, 1000);
+                        myEyes.blinkTo(img, 25, function () {
+                            myEyes.blinkTo(img, 50, function () {
+                                myEyes.blinkTo(img, 100, function () {
+                                    canvas.style.display = "";
+                                    if (timeout !== null) {
+                                        $this.clearTimeout(timeout);
+                                    }
+                                    timeout = $this.setTimeout(loadImage, 1000);
+                                });
                             });
                         });
                     });
