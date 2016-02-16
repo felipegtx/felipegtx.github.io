@@ -54,7 +54,7 @@
                                    _canvasPaletteContext.font = "28px Georgia";
                                    _canvasPaletteContext.lineWidth = 3;
                                    _canvasPaletteContext.fillStyle = "white";
-                                   _canvasPaletteContext.fillText("pelos.meus.olhos", img.width / 2, img.height - 30);
+                                   _canvasPaletteContext.fillText("pelos.meus.olhos", img.width / 3, img.height - 30);
                                    _canvasPaletteContext.fillText("você.é.perfeita.em.todo.os.pixels", img.width / 3, img.height);
 
                                    //d.querySelector("body").style.backgroundImage =
