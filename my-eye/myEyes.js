@@ -51,18 +51,19 @@
                                    _canvasPaletteContext.stroke();
                                    _canvasPaletteContext.closePath();
 
-                                   _canvasPaletteContext.font = "28px Kaushan Script";
+                                   _canvasPaletteContext.font = "48px Kaushan Script";
                                    _canvasPaletteContext.lineWidth = 3;
                                    _canvasPaletteContext.lineJoin = "round";
                                    _canvasPaletteContext.fillStyle = "white";
 
                                    _canvasPaletteContext.strokeStyle = "black";
-                                   _canvasPaletteContext.strokeText("Nos meus olhos", 350, 450);
-                                   _canvasPaletteContext.fillText("Nos meus olhos", 350, 450);
+                                   _canvasPaletteContext.strokeText("Perfeita", 350, 400);
+                                   _canvasPaletteContext.fillText("Perfeita", 350, 400);
 
+                                    _canvasPaletteContext.font = "28px Kaushan Script";
                                    _canvasPaletteContext.strokeStyle = "black";
-                                   _canvasPaletteContext.strokeText("Você é perfeita em cada pixel", 350, 480);
-                                   _canvasPaletteContext.fillText("Você é perfeita em cada pixel", 350, 480);
+                                   _canvasPaletteContext.strokeText("em cada pixel", 350, 480);
+                                   _canvasPaletteContext.fillText("em cada pixel", 350, 480);
 
                                    //d.querySelector("body").style.backgroundImage =
                                    //    "url(" + _canvasPalette.toDataURL("image/png") + ")";
