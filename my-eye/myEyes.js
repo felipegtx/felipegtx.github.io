@@ -57,8 +57,8 @@
                                    _canvasPaletteContext.fillStyle = "white";
 
                                    _canvasPaletteContext.strokeStyle = "black";
-                                   _canvasPaletteContext.strokeText("Perfeita", 450, 450);
-                                   _canvasPaletteContext.fillText("Perfeita", 450, 450);
+                                   _canvasPaletteContext.strokeText("Perfeita", 450, 470);
+                                   _canvasPaletteContext.fillText("Perfeita", 450, 470);
 
                                     _canvasPaletteContext.font = "25px Kaushan Script";
                                    _canvasPaletteContext.strokeStyle = "black";
