@@ -10,7 +10,7 @@
         }
 
         var currentImageIndex = 0,
-            images = ["ela.JPG" , "minden_52.jpg"],
+            images = ["ela.JPG", "minden_52.jpg"],
             canvas = d.querySelector("#cnvImages"),
             timeout = null,
             canvasContext = canvas.getContext("2d"),
@@ -18,78 +18,91 @@
 
                 var _canvasPalette = d.querySelector("#cnvPalette"),
                     _canvasPaletteContext = _canvasPalette.getContext("2d"),
-                       _this = {
-                           /**
-                            * Blinks for a moment to try undestand what we're seeing
-                            */
-                           blinkTo: function (img, mozaicPieces, then) {
+                    _text = null,
+                    _this = {
 
-                               mozaicPieces = mozaicPieces || 5;
-                               var mozaicHSize = Math.trunc(img.height / mozaicPieces),
-                                   mozaicWSize = Math.trunc(img.width / mozaicPieces),
-                                   worker = new Worker(location.protocol + "//" + location.host + "/my-eye/palletone.js"),
-                                   imageData = null;
+                        setText: function (strText) {
+                            _text = strText;
+                            return _this;
+                        },
+                           
+                        /**
+                         * Blinks for a moment to try undestand what we're seeing
+                         */
+                        blinkTo: function (img, mozaicPieces, then) {
 
-                               worker.addEventListener("message", function (event) {
+                            mozaicPieces = mozaicPieces || 5;
+                            var mozaicHSize = Math.trunc(img.height / mozaicPieces),
+                                mozaicWSize = Math.trunc(img.width / mozaicPieces),
+                                worker = new Worker(location.protocol + "//" + location.host + "/my-eye/palletone.js");
 
-                                   if (event.data === "DONE") {
+                            worker.addEventListener("message", function (event) {
 
-                                       /// If the next iteration exists
-                                       if (typeof then === "function") {
-                                           then();
-                                       }
-                                       return;
-                                   }
+                                if (event.data === "DONE") {
 
-                                   var color = event.data.palette;
-                                   _canvasPaletteContext.fillStyle = "rgb(" + color[0] + "," + color[1] + "," + color[2] + ")";
-                                   _canvasPaletteContext.fillRect(event.data.x,event.data.y,mozaicWSize, mozaicHSize);
+                                    /// If the next iteration exists
+                                    if (typeof then === "function") {
+                                        then();
+                                    }
+                                    _text = null;
+                                    return;
+                                }
 
-                                   _canvasPaletteContext.lineWidth = 3;
-                                   _canvasPaletteContext.lineJoin = "round";
-                                   _canvasPaletteContext.fillStyle = "white";
-                                   _canvasPaletteContext.font = "25px Kaushan Script";
-                                   _canvasPaletteContext.strokeStyle = "black";
-                                   _canvasPaletteContext.strokeText("Pixel por pixel", 480, 415);
-                                   _canvasPaletteContext.fillText("Pixel por pixel", 480, 415);
+                                var color = event.data.palette;
+                                _canvasPaletteContext.fillStyle = "rgb(" + color[0] + "," + color[1] + "," + color[2] + ")";
+                                _canvasPaletteContext.fillRect(event.data.x, event.data.y, mozaicWSize, mozaicHSize);
+
+                                _canvasPaletteContext.lineWidth = 3;
+                                _canvasPaletteContext.lineJoin = "round";
+                                _canvasPaletteContext.fillStyle = "white";
+                                _canvasPaletteContext.font = "25px Kaushan Script";
+                                _canvasPaletteContext.strokeStyle = "black";
+                                if (_text !== null) {
+                                    _canvasPaletteContext.strokeText(_text, 480, 415);
+                                    _canvasPaletteContext.fillText(_text, 480, 415);
+                                } else {
+
+                                    _canvasPaletteContext.strokeText("Pixel por pixel", 480, 415);
+                                    _canvasPaletteContext.fillText("Pixel por pixel", 480, 415);
                                     _canvasPaletteContext.font = "55px Kaushan Script";
-                                   _canvasPaletteContext.strokeStyle = "black";
-                                   _canvasPaletteContext.strokeText("Sempre linda!", 430, 460);
-                                   _canvasPaletteContext.fillText("Sempre linda!", 430, 460);
+                                    _canvasPaletteContext.strokeStyle = "black";
+                                    _canvasPaletteContext.strokeText("Sempre linda!", 430, 460);
+                                    _canvasPaletteContext.fillText("Sempre linda!", 430, 460);
                                     _canvasPaletteContext.font = "25px Kaushan Script";
-                                   _canvasPaletteContext.strokeStyle = "black";
-                                   _canvasPaletteContext.strokeText("Feliz Aniversário", 510, 500);
-                                   _canvasPaletteContext.fillText("Feliz Aniversário", 510, 500);
+                                    _canvasPaletteContext.strokeStyle = "black";
+                                    _canvasPaletteContext.strokeText("Feliz Aniversário", 510, 500);
+                                    _canvasPaletteContext.fillText("Feliz Aniversário", 510, 500);
+                                }
 
-                               }, false);
+                            }, false);
 
-                               var x = 0, y = 0;
-                               function requestChain() {
-                                   if (y <= img.height) {
-                                       if (x > img.width) {
-                                           y += mozaicHSize;
-                                           x = 0;
-                                       }
-                                       worker.postMessage({
-                                           x: x,
-                                           y: y,
-                                           imageData: canvasContext.getImageData(x, y, mozaicWSize, mozaicHSize).data
-                                       });
-                                       x += mozaicWSize;
-                                       $this.requestAnimationFrame(requestChain);
-                                   }
-                                   else {
-                                       worker.postMessage("DONE");
-                                   }
-                               }
+                            var x = 0, y = 0;
+                            function requestChain() {
+                                if (y <= img.height) {
+                                    if (x > img.width) {
+                                        y += mozaicHSize;
+                                        x = 0;
+                                    }
+                                    worker.postMessage({
+                                        x: x,
+                                        y: y,
+                                        imageData: canvasContext.getImageData(x, y, mozaicWSize, mozaicHSize).data
+                                    });
+                                    x += mozaicWSize;
+                                    $this.requestAnimationFrame(requestChain);
+                                }
+                                else {
+                                    worker.postMessage("DONE");
+                                }
+                            }
 
-                               /// This implementation frees the main thread by using the request animation frame to schedule new
-                               /// pixel color information
-                               requestChain();
+                            /// This implementation frees the main thread by using the request animation frame to schedule new
+                            /// pixel color information
+                            requestChain();
 
-                               return _this;
-                           }
-                       };
+                            return _this;
+                        }
+                    };
 
                 return _this;
             })();
@@ -119,6 +132,10 @@
             loadImageOntoCanvas(images[currentImageIndex++], function (img) {
                 myEyes
                     .blinkTo(img, 10, function () {
+                        if (currentImageIndex == 1) {
+                            myEyes.setText("Vamos?");
+                        }
+
                         myEyes.blinkTo(img, 50, function () {
                             canvas.style.display = "";
                             var currentOpacity = 0.1;
