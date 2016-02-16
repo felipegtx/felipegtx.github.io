@@ -10,7 +10,7 @@
         }
 
         var currentImageIndex = 0,
-            images = ["Tulips.jpg", "Desert.jpg"],
+            images = ["ela.JPG", "ela1.JPG"],
             canvas = d.querySelector("#cnvImages"),
             timeout = null,
             canvasContext = canvas.getContext("2d"),
@@ -24,15 +24,22 @@
                             */
                            blinkTo: function (img, mozaicPieces, then) {
 
-                               mozaicPieces = mozaicPieces || 10;
-                               var mozaicWSize = Math.trunc(img.width / mozaicPieces),
-                                   worker = new Worker("palletone.js"),
-                                   mozaicHSize = Math.trunc(img.height / mozaicPieces),
+                               mozaicPieces = mozaicPieces || 5;
+                               var mozaicHSize = img.height / mozaicPieces,
+                                   mozaicWSize = img.width / mozaicPieces,
+                                   worker = new Worker(location.protocol + "//" + location.host + "/my-eye/palletone.js"),
                                    imageData = null;
 
                                worker.addEventListener("message", function (event) {
 
+                                   /// This alow us to erase all paths and work with the canvas as if it was blank for the next iteration
+                                   var image = _canvasPaletteContext.getImageData(0, 0, _canvasPalette.width, _canvasPalette.height);
+                                   _canvasPaletteContext.clearRect(0, 0, _canvasPalette.width, _canvasPalette.height);
+                                   _canvasPaletteContext.putImageData(image, 0, 0);
+
                                    if (event.data === "DONE") {
+
+                                       /// If the next iteration exists
                                        if (typeof then === "function") {
                                            then();
                                        }
@@ -52,12 +59,16 @@
 
                                }, false);
 
-                               for (var y = 0; y < img.height; y += mozaicHSize) {
-                                   for (var x = 0; x < img.width; x += mozaicWSize) {
-                                       imageData = canvasContext.getImageData(x, y, mozaicWSize, mozaicHSize).data;
-                                       worker.postMessage({ x: x, y: y, imageData: imageData });
+                               for (var x = 0; x < img.width; x += mozaicWSize) {
+                                   for (var y = 0; y < img.height; y += mozaicHSize) {
+                                       worker.postMessage({
+                                           x: x,
+                                           y: y,
+                                           imageData: canvasContext.getImageData(x, y, mozaicWSize, mozaicHSize).data
+                                       });
                                    }
                                }
+
                                worker.postMessage("DONE");
 
                                return _this;
@@ -92,20 +103,19 @@
             canvas.style.display = "none";
             loadImageOntoCanvas(images[currentImageIndex++], function (img) {
                 myEyes
-                    .blinkTo(img)
-                    .blinkTo(img, 30)
-                    .blinkTo(img, 60)
-                    .blinkTo(img, 90)
-                    .blinkTo(img, 120, function () {
-                        canvas.style.display = "";
-                        if (timeout !== null) {
-                            $this.clearTimeout(timeout);
-                        }
-                        timeout = $this.setTimeout(loadImage, 1000);
+                    .blinkTo(img, 10, function () {
+                        myEyes.blinkTo(img, 100, function () {
+                            myEyes.blinkTo(img, 200, function () {
+                                canvas.style.display = "";
+                                if (timeout !== null) {
+                                    $this.clearTimeout(timeout);
+                                }
+                                timeout = $this.setTimeout(loadImage, 1000);
+                            });
+                        });
                     });
             });
         }
-
         loadImage();
     });
 

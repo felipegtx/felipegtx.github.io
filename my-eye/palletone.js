@@ -24,8 +24,10 @@ self.addEventListener("message", function (e) {
             }
         }
     }
+
     var cmap = MMCQ.quantize(colors, 5);
     if (cmap) {
         self.postMessage({ x: e.data.x, y: e.data.y, palette: cmap.palette()[0] });
     }
+
 }, false);
