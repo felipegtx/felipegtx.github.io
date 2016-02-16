@@ -75,7 +75,7 @@
 
                                var x = 0, y = 0;
                                function requestChain() {
-                                   if (x <= img.width) {
+                                   if (x <= (img.width + mozaicWSize)) {
                                        if (y > img.height) {
                                            x += mozaicWSize;
                                            y = 0;
