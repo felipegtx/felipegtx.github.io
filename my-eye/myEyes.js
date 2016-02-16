@@ -57,8 +57,8 @@
 
                                    _canvasPaletteContext.font = "25px Kaushan Script";
                                    _canvasPaletteContext.strokeStyle = "black";
-                                   _canvasPaletteContext.strokeText("Para os meus olhos", 470, 410);
-                                   _canvasPaletteContext.fillText("Para os meus olhos", 470, 410);
+                                   _canvasPaletteContext.strokeText("Para os meus olhos", 480, 415);
+                                   _canvasPaletteContext.fillText("Para os meus olhos", 480, 415);
 
                                     _canvasPaletteContext.font = "55px Kaushan Script";
                                    _canvasPaletteContext.strokeStyle = "black";
