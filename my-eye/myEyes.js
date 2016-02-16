@@ -112,7 +112,7 @@
                     .blinkTo(img, 10, function () {
                         myEyes.blinkTo(img, 25, function () {
                             myEyes.blinkTo(img, 50, function () {
-                                myEyes.blinkTo(img, 100, function () {
+                                myEyes.blinkTo(img, 200, function () {
                                     canvas.style.display = "";
                                     if (timeout !== null) {
                                         $this.clearTimeout(timeout);
