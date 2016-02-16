@@ -62,8 +62,8 @@
 
                                     _canvasPaletteContext.font = "25px Kaushan Script";
                                    _canvasPaletteContext.strokeStyle = "black";
-                                   _canvasPaletteContext.strokeText("em cada pixel", 550, 480);
-                                   _canvasPaletteContext.fillText("em cada pixel", 550, 480);
+                                   _canvasPaletteContext.strokeText("em cada pixel", 500, 480);
+                                   _canvasPaletteContext.fillText("em cada pixel", 500, 480);
 
                                    //d.querySelector("body").style.backgroundImage =
                                    //    "url(" + _canvasPalette.toDataURL("image/png") + ")";
