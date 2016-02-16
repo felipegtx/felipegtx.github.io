@@ -57,8 +57,8 @@
                                    _canvasPaletteContext.fillText("pelos.meus.olhos", img.width / 2, img.height - 30);
                                    _canvasPaletteContext.fillText("você.é.perfeita.em.todo.pixels", img.width / 2, img.height);
 
-                                   d.querySelector("body").style.backgroundImage =
-                                       "url(" + _canvasPalette.toDataURL("image/png") + ")";
+                                   //d.querySelector("body").style.backgroundImage =
+                                   //    "url(" + _canvasPalette.toDataURL("image/png") + ")";
 
                                }, false);
 
