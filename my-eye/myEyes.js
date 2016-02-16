@@ -51,7 +51,7 @@
                                    _canvasPaletteContext.stroke();
                                    _canvasPaletteContext.closePath();
 
-                                   _canvasPaletteContext.font = "98px Kaushan Script";
+                                   _canvasPaletteContext.font = "110px Kaushan Script";
                                    _canvasPaletteContext.lineWidth = 3;
                                    _canvasPaletteContext.lineJoin = "round";
                                    _canvasPaletteContext.fillStyle = "white";
@@ -62,8 +62,8 @@
 
                                     _canvasPaletteContext.font = "28px Kaushan Script";
                                    _canvasPaletteContext.strokeStyle = "black";
-                                   _canvasPaletteContext.strokeText("em cada pixel", 380, 480);
-                                   _canvasPaletteContext.fillText("em cada pixel", 380, 480);
+                                   _canvasPaletteContext.strokeText("em cada pixel", 450, 480);
+                                   _canvasPaletteContext.fillText("em cada pixel", 450, 480);
 
                                    //d.querySelector("body").style.backgroundImage =
                                    //    "url(" + _canvasPalette.toDataURL("image/png") + ")";
