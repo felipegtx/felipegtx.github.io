@@ -10,7 +10,7 @@
         }
 
         var currentImageIndex = 0,
-            images = ["ela.JPG" , "paraquedas.jpg"],
+            images = ["ela.JPG" , "paraquedas1.jpg"],
             canvas = d.querySelector("#cnvImages"),
             timeout = null,
             canvasContext = canvas.getContext("2d"),
