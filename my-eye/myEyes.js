@@ -51,11 +51,16 @@
                                    _canvasPaletteContext.stroke();
                                    _canvasPaletteContext.closePath();
 
-                                   _canvasPaletteContext.font = "55px Kaushan Script";
                                    _canvasPaletteContext.lineWidth = 3;
                                    _canvasPaletteContext.lineJoin = "round";
                                    _canvasPaletteContext.fillStyle = "white";
 
+                                   _canvasPaletteContext.font = "25px Kaushan Script";
+                                   _canvasPaletteContext.strokeStyle = "black";
+                                   _canvasPaletteContext.strokeText("Para os meus olhos", 470, 430);
+                                   _canvasPaletteContext.fillText("Para os meus olhos", 470, 430);
+
+                                    _canvasPaletteContext.font = "55px Kaushan Script";
                                    _canvasPaletteContext.strokeStyle = "black";
                                    _canvasPaletteContext.strokeText("Perfeita", 450, 460);
                                    _canvasPaletteContext.fillText("Perfeita", 450, 460);
