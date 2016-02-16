@@ -51,7 +51,7 @@
                                    _canvasPaletteContext.stroke();
                                    _canvasPaletteContext.closePath();
 
-                                   _canvasPaletteContext.font = "90px Kaushan Script";
+                                   _canvasPaletteContext.font = "50px Kaushan Script";
                                    _canvasPaletteContext.lineWidth = 3;
                                    _canvasPaletteContext.lineJoin = "round";
                                    _canvasPaletteContext.fillStyle = "white";
@@ -60,7 +60,7 @@
                                    _canvasPaletteContext.strokeText("Perfeita", 350, 430);
                                    _canvasPaletteContext.fillText("Perfeita", 350, 430);
 
-                                    _canvasPaletteContext.font = "28px Kaushan Script";
+                                    _canvasPaletteContext.font = "25px Kaushan Script";
                                    _canvasPaletteContext.strokeStyle = "black";
                                    _canvasPaletteContext.strokeText("em cada pixel", 550, 480);
                                    _canvasPaletteContext.fillText("em cada pixel", 550, 480);
