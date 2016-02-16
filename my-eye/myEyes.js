@@ -40,11 +40,11 @@
 
                                 if (event.data === "DONE") {
 
+                                    _text = null;
                                     /// If the next iteration exists
                                     if (typeof then === "function") {
                                         then();
                                     }
-                                    _text = null;
                                     return;
                                 }
 
@@ -58,8 +58,9 @@
                                 _canvasPaletteContext.font = "25px Kaushan Script";
                                 _canvasPaletteContext.strokeStyle = "black";
                                 if (_text !== null) {
-                                    _canvasPaletteContext.strokeText(_text, 480, 415);
-                                    _canvasPaletteContext.fillText(_text, 480, 415);
+                                    _canvasPaletteContext.font = "50px Kaushan Script";
+                                    _canvasPaletteContext.strokeText(_text, 100, 215);
+                                    _canvasPaletteContext.fillText(_text, 100, 215);
                                 } else {
 
                                     _canvasPaletteContext.strokeText("Pixel por pixel", 480, 415);
@@ -130,12 +131,14 @@
                 currentImageIndex = 0;
             }
             loadImageOntoCanvas(images[currentImageIndex++], function (img) {
+                if (currentImageIndex === 2) {
+                    myEyes.setText("E o seu presente...");
+                } 
                 myEyes
                     .blinkTo(img, 10, function () {
                         if (currentImageIndex === 2) {
-                            myEyes.setText("Vamos?");
+                            myEyes.setText("E o seu presente...");
                         }
-
                         myEyes.blinkTo(img, 50, function () {
                             canvas.style.display = "";
                             var currentOpacity = 0.1;
