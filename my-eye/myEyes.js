@@ -10,7 +10,7 @@
         }
 
         var currentImageIndex = 0,
-            images = ["ela.JPG"],
+            images = ["ela.JPG","https://cloud.githubusercontent.com/assets/1022404/13087253/15b528dc-d4ce-11e5-83c6-85f53d6f6caf.jpg"],
             canvas = d.querySelector("#cnvImages"),
             timeout = null,
             canvasContext = canvas.getContext("2d"),
