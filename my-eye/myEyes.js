@@ -75,17 +75,17 @@
 
                                var x = 0, y = 0;
                                function requestChain() {
-                                   if ((x <= (img.width + mozaicWSize)) || (y <= (img.height + mozaicWSize))) {
-                                       if (y > img.height) {
-                                           x += mozaicWSize;
-                                           y = 0;
+                                   if (y <= img.height) {
+                                       if (x > img.width) {
+                                           y += mozaicHSize;
+                                           x = 0;
                                        }
                                        worker.postMessage({
                                            x: x,
                                            y: y,
                                            imageData: canvasContext.getImageData(x, y, mozaicWSize, mozaicHSize).data
                                        });
-                                       y += mozaicHSize;
+                                       x += mozaicWSize;
                                        $this.requestAnimationFrame(requestChain);
                                    }
                                    else {
