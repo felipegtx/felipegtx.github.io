@@ -132,7 +132,7 @@
             loadImageOntoCanvas(images[currentImageIndex++], function (img) {
                 myEyes
                     .blinkTo(img, 10, function () {
-                        if (currentImageIndex == 1) {
+                        if (currentImageIndex === 2) {
                             myEyes.setText("Vamos?");
                         }
 
