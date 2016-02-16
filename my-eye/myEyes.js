@@ -80,12 +80,12 @@
                                            x += mozaicWSize;
                                            y = 0;
                                        }
-                                       y += mozaicHSize;
                                        worker.postMessage({
                                            x: x,
                                            y: y,
                                            imageData: canvasContext.getImageData(x, y, mozaicWSize, mozaicHSize).data
                                        });
+                                       y += mozaicHSize;
                                        $this.requestAnimationFrame(requestChain);
                                    }
                                    else {
