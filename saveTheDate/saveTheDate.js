@@ -270,17 +270,22 @@
             ["compartilhando", 7, { x: 450, y: 325, fillStyle: colors.yellow, strokeStyle: colors.yellow, fontSize: "90px", alpha: 0.6 }],
              {
                  "target": function (whenDone) {
-                     loadImage("sharing.png", { x: 90, y: 405 }, whenDone);
+                     loadImage("sharing.png", { x: 90, y: 405 }, function () {
+                         var timeout = window.setTimeout(function () {
+                             window.clearTimeout(timeout);
+                             requestAnimationFrame(whenDone);
+                         }, 700);
+                     });
                  }
              },
             ["Histórias", 12, { x: 135, y: 550, fillStyle: colors.white, fontSize: "250px", alpha: 0.7 }],
             { "target": clear },
 
             /* 12 anos e 6 meses desde que ele consegui o primeiro beijo*/
-            ["12 anos", 7, { x: 100, y: 200, fillStyle: colors.white, strokeStyle: colors.black, alpha: 0.95, fontSize: "220px" }],
+            ["12 anos", 7, { x: 100, y: 200, fillStyle: colors.white, strokeStyle: colors.black, alpha: 0.97, fontSize: "220px" }],
             ["e 6 meses", 7, { x: 130, y: 320, strokeStyle: colors.blue, fontSize: "130px" }],
             ["desde o", 7, { x: 200, y: 430, strokeStyle: colors.blue, fontSize: "140px" }],
-            ["primeiro", 3, { x: 100, y: 550, fillStyle: colors.green, strokeStyle: colors.black, fontSize: "200px" }],
+            ["primeiro", 3, { x: 90, y: 550, fillStyle: colors.green, strokeStyle: colors.black, fontSize: "200px" }],
             ["beijo", 4, { x: 200, y: 700, strokeStyle: colors.red, fontSize: "190px" }],
             {
                 "target": function (whenDone) {
