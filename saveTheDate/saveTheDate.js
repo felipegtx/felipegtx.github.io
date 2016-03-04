@@ -69,7 +69,7 @@
 
                         if (isFunction(what)) {
                             if (isValid === false) {
-                                what.call();
+                                requestAnimationFrame(what);
                             } else {
                                 whatNext = what;
                             }
@@ -86,7 +86,17 @@
                     "londrina-sketch, sans-serif",
                     "fredericka-the-great, sans-serif",
                     "cabin-sketch, sans-serif",
-                    "FontAwesome"],
+                    "FontAwesome",/// 6
+                    "'Amatic SC', cursive",
+                    "'Rock Salt', cursive",
+                    "'Pinyon Script', cursive",
+                    "'Nothing You Could Do', cursive",
+                    "'Homemade Apple', cursive",
+                    "'Reenie Beanie', cursive", // 12
+                    "'Sacramento', cursive",
+                    "'Waiting for the Sunrise', cursive",
+                    "'Petit Formal Script', cursive"
+            ],
 
             /// The collor palete we'll be using
             colors = {
@@ -108,6 +118,30 @@
                 /// https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Global_Objects/Math/random
                 return Math.random() * (max - min) + min;
             },
+
+            loadImage = function (imgSrc, options, whenDone) {
+                /// <summary>Loads a given image into the canvas</summary>
+                var image = new Image();
+                image.onload = function () {
+                    var x = options.x || 0,
+                        y = options.y || 0,
+                        h = options.h || image.height,
+                        w = options.h || image.width;
+
+                    canvasCtx.globalCompositeOperation = "lighter";
+                    canvasCtx.globalAlpha = options.alpha || 0.35;
+                    canvasCtx.drawImage(this, x, y, w, h);
+
+                    max.x = Math.max(max.x, x + w);
+                    max.y = Math.max(max.y, y + h);
+
+                    if (typeof whenDone === "function") {
+                        requestAnimationFrame(whenDone);
+                    }
+                };
+                image.src = imgSrc;
+            },
+
             clear = function (whenDone) {
                 /// <summary>Clears the canvas via a simulated chalkboard eraser animation</summary>
 
@@ -123,12 +157,12 @@
                         canvasCtx.beginPath();
 
                         /// Well, cleaning chalkboards aint easy ya know... 
-                        /// The pressure of the erasing hand may vary.
+                        /// The pressure of the hand may vary.
                         canvasCtx.globalAlpha = getRandomArbitrary(0.95, 0.99);
                         canvasCtx.fillStyle = canvasCtx.strokeStyle = "black";
                         canvasCtx.fillRect(x, y, getRandomArbitrary(210, 211), getRandomArbitrary(40, 41));
                         canvasCtx.stroke();
-                        if (y < max.y) {
+                        if (y <= (max.y + 41)) {
                             if (x >= max.x) {
                                 y += getRandomArbitrary(40, 41);
                                 x = 0;
@@ -138,14 +172,17 @@
                             requestAnimationFrame(erase);
                         } else {
                             erasing.stop();
+                            console.log("done");
                             if (typeof whenDone === "function") {
-                                whenDone.call();
+                                requestAnimationFrame(whenDone);
                             }
                         }
                     })();
                 }, 2000);
             },
+
             writeText = function (txt, intFontIndex, options, whenDone) {
+                /// <summary>Writes the text into the canvas with an animated efect</summary>
 
                 var dashLen = 100,
                     dashOffset = dashLen,
@@ -154,7 +191,8 @@
                     y = options.y || 90,
                     i = 0,
                     font = fonts[intFontIndex || 0],
-                    fontSize = (options.fontSize || "80px");
+                    fontSize = (options.fontSize || "80px"),
+                    intFontSize = parseInt(fontSize);
 
                 /// Reset composition to the "default" behaviour
                 canvasCtx.globalCompositeOperation = "source-over";
@@ -162,8 +200,8 @@
                 /// Adaptation from the code that can be found at: 
                 /// http://stackoverflow.com/questions/29911143/how-can-i-animate-the-drawing-of-text-on-a-web-page/29912925#29912925
                 canvasCtx.font = fontSize + " " + font;
-                canvasCtx.lineWidth = 1;
-                canvasCtx.lineJoin = "square";
+                canvasCtx.lineWidth = options.lineWidth || 1;
+                canvasCtx.lineJoin = "round";
                 canvasCtx.globalAlpha = options.alpha || 0.9;
 
                 if (options.fillStyle) {
@@ -177,7 +215,7 @@
                 (function loop() {
                     writing.play();
                     var textM = canvasCtx.measureText(txt[i]);
-                    canvasCtx.clearRect(x, 0, textM.width, textM.height);
+                    canvasCtx.clearRect(x, 0, textM.width, fontSize);
                     canvasCtx.setLineDash([dashLen - dashOffset, dashOffset - speed]);
                     dashOffset -= speed;
                     canvasCtx.strokeText(txt[i], x, y);
@@ -190,17 +228,15 @@
                         }
                         dashOffset = dashLen;
                         x += canvasCtx.measureText(txt[i++]).width + canvasCtx.lineWidth * Math.random();
-                        canvasCtx.setTransform(1, 0, 0, 1, 0, 3 * Math.random());
-                        canvasCtx.rotate(Math.random() * 0.005);
                         if (i < txt.length) {
                             requestAnimationFrame(loop);
                         } else {
                             var textMeasurement = canvasCtx.measureText(txt);
                             max.x = Math.max(max.x, textMeasurement.width + txt.length + x);
-                            max.y = Math.max(max.y, parseInt(fontSize) + y);
+                            max.y = Math.max(max.y, intFontSize + y);
                             writing.stop();
                             if (typeof whenDone === "function") {
-                                whenDone.call();
+                                requestAnimationFrame(whenDone);
                             }
                         }
                     }
@@ -213,26 +249,87 @@
         }
 
         /// Full screen
-        canvas.height = windowH - 20;
-        canvas.width = windowW - 20;
+        canvas.height = windowH;
+        canvas.width = windowW;
 
         /// Call to start the animated text writing process 
         functionChain(writeText,
         [
+            /* Intro*/
+            ["\uf004", 6, { x: 250, y: 400, alpha: 0.4, lineWidth: 3, strokeStyle: colors.red, fontSize: "390px" }],
             ["Amanda", 4, { x: 100, y: 190, fontSize: "180px" }],
             ["&", 5, { x: 400, y: 280, strokeStyle: colors.red, fontSize: "115px" }],
-            ["Felipe", 4, { x: 140, y: 430, fontSize: "180px" }],
-            ["\uf004", 6, { x: 350, y: 450, alpha: 0.4, strokeStyle: colors.red, fontSize: "390px" }],
+            ["Felipe", 4, { x: 170, y: 430, fontSize: "180px" }],
             { "target": clear },
-            ["Metade da vida", 3, { x: 150, y: 130, strokeStyle: colors.red, fontSize: "130px" }],
-            ["compartilhando", 5, { x: 220, y: 215, fillStyle: colors.yellow, strokeStyle: colors.yellow, fontSize: "90px", alpha: 0.6 }],
-            ["histórias", 3, { x: 185, y: 320, strokeStyle: colors.white, fontSize: "135px" }],
+
+            /* Metade da vida dividindo histórias*/
+            ["Metade da", 3, { x: 100, y: 160, strokeStyle: colors.red, fontSize: "180px" }],
+            ["vida", 3, { x: 110, y: 340, strokeStyle: colors.red, fontSize: "200px" }],
+            ["compartilhando", 7, { x: 450, y: 325, fillStyle: colors.yellow, strokeStyle: colors.yellow, fontSize: "90px", alpha: 0.6 }],
+             {
+                 "target": function (whenDone) {
+                     loadImage("sharing.png", { x: 90, y: 405 }, whenDone);
+                 }
+             },
+            ["Histórias", 12, { x: 135, y: 550, fillStyle: colors.white, fontSize: "250px", alpha: 0.95 }],
             { "target": clear },
-            ["12 anos", 2, { x: 100, y: 170, fontSize: "195px" }],
-            ["e 6 meses", 3, { x: 200, y: 300, strokeStyle: colors.blue, fontSize: "150px" }],
-            ["desde o", 3, { x: 180, y: 400, strokeStyle: colors.blue, fontSize: "140px" }],
-            ["PRIMEIRO", 2, { x: 200, y: 540, strokeStyle: colors.green, fontSize: "190px" }],
-            ["beijo", 4, { x: 200, y: 700, strokeStyle: colors.red, fontSize: "190px" }]
+
+            /* 12 anos e 6 meses desde que ele consegui o primeiro beijo*/
+            ["12 anos", 7, { x: 100, y: 200, fillStyle: colors.white, strokeStyle: colors.black, alpha: 0.95, fontSize: "220px" }],
+            ["e 6 meses", 7, { x: 130, y: 320, strokeStyle: colors.blue, fontSize: "130px" }],
+            ["desde o", 7, { x: 200, y: 430, strokeStyle: colors.blue, fontSize: "140px" }],
+            ["primeiro", 3, { x: 100, y: 550, fillStyle: colors.green, strokeStyle: colors.black, fontSize: "200px" }],
+            ["beijo", 4, { x: 200, y: 700, strokeStyle: colors.red, fontSize: "190px" }],
+            {
+                "target": function (whenDone) {
+                    loadImage("kiss.png", { x: 550, y: 450, w: 300, h: 300 }, whenDone);
+                }
+            },
+            { "target": clear },
+
+            /* 6 anos e 6 meses dividindo a escova de dente */
+            ["6", 2, { x: 50, y: 300, fontSize: "420px" }],
+            ["ANOS", 3, { x: 220, y: 180, strokeStyle: colors.blue, fontSize: "165px" }],
+            ["e", 3, { x: 550, y: 180, strokeStyle: colors.red, fontSize: "140px" }],
+            ["6", 2, { x: 50, y: 300, strokeStyle: colors.red, fontSize: "420px" }],
+            ["6", 2, { x: 50, y: 300, strokeStyle: colors.green, fontSize: "420px" }],
+            ["6", 2, { x: 50, y: 300, strokeStyle: colors.blue, fontSize: "420px" }],
+            ["6", 2, { x: 50, y: 300, strokeStyle: colors.yellow, fontSize: "420px" }],
+            ["6", 2, { x: 50, y: 300, strokeStyle: colors.black, fontSize: "420px" }],
+            ["6", 2, { x: 50, y: 300, strokeStyle: colors.white, fontSize: "420px" }],
+            ["meses", 4, { x: 250, y: 280, strokeStyle: colors.blue, fontSize: "165px" }],
+            ["dividindo", 5, { x: 150, y: 380, strokeStyle: colors.green, fontSize: "100px" }],
+            ["a", 4, { x: 70, y: 480, strokeStyle: colors.yellow, alpha: 0.5, fontSize: "170px" }],
+            ["escova de", 4, { x: 190, y: 470, alpha: 0.5, strokeStyle: colors.white, fontSize: "100px" }],
+            ["dente", 4, { x: 240, y: 570, alpha: 0.5, strokeStyle: colors.white, fontSize: "100px" }],
+            {
+                "target": function (whenDone) {
+                    loadImage("teeth.png", { x: 520, y: 490, alpha: 1 }, whenDone);
+                }
+            },
+            {
+                "target": function (whenDone) {
+                    var timeout = window.setTimeout(function () {
+                        window.clearTimeout(timeout);
+                        loadImage("yaono.png", { x: 0, y: 0, alpha: 0.07 }, whenDone);
+                    }, 1000);
+                }
+            },
+            { "target": clear }
+
+            /*3 anos e 6 meses desde que ela disse sim*/
+            //["3 anos", 6, { x: 220, y: 180, strokeStyle: colors.white, fontSize: "165px" }],
+            //["e", 3, { x: 650, y: 190, strokeStyle: colors.red, fontSize: "140px" }],
+            //["6", 9, { x: 50, y: 300, strokeStyle: colors.blue, fontSize: "420px" }],
+            //["meses", 8, { x: 250, y: 290, strokeStyle: colors.blue, fontSize: "165px" }],
+            //["desde que", 5, { x: 150, y: 380, strokeStyle: colors.blue, fontSize: "100px" }],
+            //["ela", 4, { x: 50, y: 480, strokeStyle: colors.yellow, alpha: 0.5, fontSize: "165px" }],
+            //["disse", 4, { x: 190, y: 470, alpha: 0.5, strokeStyle: colors.white, fontSize: "100px" }],
+            //["SIM!", 4, { x: 240, y: 570, alpha: 0.5, strokeStyle: colors.white, fontSize: "100px" }],
+            //{ "target": clear }
+
+            /*em 6 meses irão se casar*/
+            /*Save the date - 24/09/2016*/
         ]);
     });
 })();
