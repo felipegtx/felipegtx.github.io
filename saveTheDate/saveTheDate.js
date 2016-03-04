@@ -143,18 +143,21 @@
                 function () {
                     writeText("e 6 meses", 3, { x: 200, y: 300, strokeStyle: colors.blue, fontSize: "150px" },
                     function () {
-                        writeText("desde o primeiro", 3,
+                        writeText("desde o", 3,
                             { x: 180, y: 400, strokeStyle: colors.blue, fontSize: "140px" },
                             function () {
-                                writeText("beijo", 4, { x: 200, y: 540, strokeStyle: colors.red, fontSize: "190px" }, function () {
-                                    writeText("\uf087", 6,
-                                      { x: 680, y: 550, strokeStyle: colors.blue, fontSize: "150px" }, function () {
-                                          var timeout = window.setTimeout(function () {
-                                              window.clearTimeout(timeout);
-                                              clear();
-                                          }, 1000);
-                                      });
-                                });
+                                writeText("PRIMEIRO", 2, { x: 200, y: 540, strokeStyle: colors.green, fontSize: "190px" },
+                                    function () {
+                                        writeText("beijo", 4, { x: 200, y: 700, strokeStyle: colors.red, fontSize: "190px" }, function () {
+                                            writeText("\uf087", 6,
+                                              { x: 650, y: 700, strokeStyle: colors.blue, fontSize: "150px" }, function () {
+                                                  var timeout = window.setTimeout(function () {
+                                                      window.clearTimeout(timeout);
+                                                      clear();
+                                                  }, 1000);
+                                              });
+                                        });
+                                    });
                             });
                     });
                 });
@@ -163,8 +166,8 @@
         canvas.height = windowH - 20;
         canvas.width = windowW - 20;
 
-        //v2();
-        //return;
+        v2();
+        return;
         writeText("Amanda", 4, { x: 100, y: 190, fontSize: "180px" },
             function () {
                 writeText("&", 5, { x: 400, y: 280, strokeStyle: colors.red, fontSize: "115px" },
