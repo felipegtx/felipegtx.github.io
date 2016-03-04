@@ -33,7 +33,7 @@
                     canvasCtx.globalCompositeOperation = "destination-out";
                     canvasCtx.beginPath();
                     canvasCtx.strokeStyle = "black";
-                    canvasCtx.lineWidth = 25;
+                    canvasCtx.lineWidth = 30;
                     canvasCtx.globalAlpha = 1;
                     canvasCtx.moveTo(getRandomArbitrary(0, max.x), getRandomArbitrary(0, max.y));
                     canvasCtx.lineTo(getRandomArbitrary(0, max.x), getRandomArbitrary(0, max.y));
@@ -62,7 +62,7 @@
                         "FontAwesome"],
                     dashLen = 100,
                     dashOffset = dashLen,
-                    speed = options.speed || 3,
+                    speed = options.speed || 7.5,
                     x = options.x || 10,
                     y = options.y || 90,
                     i = 0,
@@ -83,7 +83,7 @@
                     canvasCtx.fillStyle = options.fillStyle;
                 }
                 canvasCtx.strokeStyle = options.strokeStyle || colors.white;
-                writing.setTime(3);
+                writing.setTime(4);
                 (function loop() {
                     writing.play();
                     var textM = canvasCtx.measureText(txt[i]);
