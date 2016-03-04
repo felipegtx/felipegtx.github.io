@@ -256,7 +256,7 @@
         functionChain(writeText,
         [
             /* Intro*/
-            ["\uf004", 6, { x: 250, y: 400, alpha: 0.4, lineWidth: 3, strokeStyle: colors.red, fontSize: "390px" }],
+            ["\uf004", 6, { x: 250, y: 400, alpha: 0.1, lineWidth: 3, strokeStyle: colors.red, fontSize: "390px" }],
             ["Amanda", 4, { x: 100, y: 190, fontSize: "180px" }],
             ["&", 5, { x: 400, y: 280, strokeStyle: colors.red, fontSize: "115px" }],
             ["Felipe", 4, { x: 170, y: 430, fontSize: "180px" }],
