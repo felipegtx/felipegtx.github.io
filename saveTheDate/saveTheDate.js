@@ -310,7 +310,7 @@
                     loadImage("teeth.png", { x: 520, y: 490, alpha: 1 }, whenDone);
                 }
             },
-            { "target": clear }
+            { "target": clear },
 
             /*3 anos e 6 meses desde que ela disse sim*/
             ["3 anos", 7, { x: 200, y: 170, strokeStyle: colors.black, fillStyle: colors.green, fontSize: "165px" }],
