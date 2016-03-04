@@ -17,8 +17,8 @@
             },
             canvasCtx = canvas.getContext("2d"),
             max = { x: 0, y: 0 },
-            writing = new buzz.sound("writing.ogg", { preload: true, loop: false, volume: 100, autoplay: false }),
-            erasing = new buzz.sound("eraser.ogg", { preload: true, loop: false, volume: 100, autoplay: false }),
+            writing = new buzz.sound("writing.ogg", { preload: true, loop: false, volume: 30, autoplay: false }).load(),
+            erasing = new buzz.sound("eraser.ogg", { preload: true, loop: false, volume: 200, autoplay: false }).load(),
 
             getRandomArbitrary = function (min, max) {
                 /// https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Global_Objects/Math/random
@@ -87,7 +87,7 @@
                     canvasCtx.fillStyle = options.fillStyle;
                 }
                 canvasCtx.strokeStyle = options.strokeStyle || colors.white;
-                writing.setTime(4);
+                writing.setTime(getRandomArbitrary(0.4, 5));
                 (function loop() {
                     writing.play();
                     var textM = canvasCtx.measureText(txt[i]);
@@ -110,9 +110,10 @@
                             requestAnimationFrame(loop);
                         } else {
                             var textMeasurement = canvasCtx.measureText(txt);
-                            max.x = Math.max(max.x, textMeasurement.width + (parseInt(fontSize) * txt.length));
-                            max.y = Math.max(max.y, parseInt(fontSize));
+                            max.x = Math.max(max.x, textMeasurement.width + txt.length + x);
+                            max.y = Math.max(max.y, parseInt(fontSize) + y);
                             if (typeof whenDone === "function") {
+                                console.log(max);
                                 writing.stop();
                                 whenDone.call();
                             }
@@ -137,14 +138,39 @@
         //    });
         //});
 
+        function v2() {
+            writeText("12 anos", 2, { x: 100, y: 170, fontSize: "195px" },
+                function () {
+                    writeText("e 6 meses", 3, { x: 200, y: 300, strokeStyle: colors.blue, fontSize: "150px" },
+                    function () {
+                        writeText("desde o primeiro", 3,
+                            { x: 180, y: 400, strokeStyle: colors.blue, fontSize: "140px" },
+                            function () {
+                                writeText("beijo", 4, { x: 200, y: 540, strokeStyle: colors.red, fontSize: "190px" }, function () {
+                                    writeText("\uf087", 6,
+                                      { x: 680, y: 550, strokeStyle: colors.blue, fontSize: "150px" }, function () {
+                                          var timeout = window.setTimeout(function () {
+                                              window.clearTimeout(timeout);
+                                              clear();
+                                          }, 1000);
+                                      });
+                                });
+                            });
+                    });
+                });
+        }
+
         canvas.height = windowH - 20;
         canvas.width = windowW - 20;
-        writeText("Amanda", 4, { x: 100, y: 100 },
+
+        //v2();
+        //return;
+        writeText("Amanda", 4, { x: 100, y: 190, fontSize: "180px" },
             function () {
-                writeText("&", 5, { x: 400, y: 130, strokeStyle: colors.red, fontSize: "115px" },
+                writeText("&", 5, { x: 400, y: 280, strokeStyle: colors.red, fontSize: "115px" },
                     function () {
-                        writeText("Felipe", 4, { x: 450, y: 180 }, function () {
-                            writeText("\uf004", 6, { x: 250, y: 310, alpha: 0.4, strokeStyle: colors.red, fontSize: "340px" }, function () {
+                        writeText("Felipe", 4, { x: 140, y: 430, fontSize: "180px" }, function () {
+                            writeText("\uf004", 6, { x: 350, y: 450, alpha: 0.4, strokeStyle: colors.red, fontSize: "390px" }, function () {
                                 var timeout = window.setTimeout(function () {
                                     window.clearTimeout(timeout);
                                     clear(function () {
@@ -160,7 +186,7 @@
                                                                 { x: 185, y: 320, strokeStyle: colors.white, fontSize: "135px" },
                                                                 function () {
                                                                     timeout = window.setTimeout(function () {
-                                                                        clear();
+                                                                        clear(v2);
                                                                     }, 1000);
                                                                 });
                                                             });
@@ -168,7 +194,7 @@
 
                                             });
                                     });
-                                }, 1000);
+                                }, 2500);
                             })
                         });
                     });
