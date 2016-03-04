@@ -22,24 +22,25 @@
 
             getRandomArbitrary = function (min, max) {
                 /// https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Global_Objects/Math/random
-                return Math.random() * (max - min) + min;
+                return Math.trunc(Math.random() * (max - min) + min);
             },
             clear = function (whenDone) {
-                var iteraction = 0,
-                    maxIteractions = 200;
+                var x = 0,
+                    y = 0,
+                    maxIteractions = 100;
                 erasing.setTime(2);
                 (function erase() {
                     erasing.play();
-                    canvasCtx.globalCompositeOperation = "destination-out";
                     canvasCtx.beginPath();
-                    canvasCtx.strokeStyle = "black";
-                    canvasCtx.lineWidth = 30;
-                    canvasCtx.globalAlpha = 1;
-                    canvasCtx.moveTo(getRandomArbitrary(0, max.x), getRandomArbitrary(0, max.y));
-                    canvasCtx.lineTo(getRandomArbitrary(0, max.x), getRandomArbitrary(0, max.y));
+                    canvasCtx.clearRect(x, y, getRandomArbitrary(209, 211), getRandomArbitrary(39, 41))
                     canvasCtx.stroke();
-
-                    if (++iteraction < maxIteractions) {
+                    if (y < max.y) {
+                        if (x >= max.x) {
+                            y += getRandomArbitrary(39, 41);
+                            x = 0;
+                        } else {
+                            x += getRandomArbitrary(209, 211);
+                        }
                         requestAnimationFrame(erase);
                     } else {
                         erasing.stop();
@@ -76,7 +77,7 @@
                 /// http://stackoverflow.com/questions/29911143/how-can-i-animate-the-drawing-of-text-on-a-web-page/29912925#29912925
                 canvasCtx.font = fontSize + " " + font;
                 canvasCtx.lineWidth = 1;
-                canvasCtx.lineJoin = "round";
+                canvasCtx.lineJoin = "square";
                 canvasCtx.globalAlpha = options.alpha || 0.9;
 
                 if (options.fillStyle) {
@@ -107,7 +108,7 @@
                         } else {
                             var textMeasurement = canvasCtx.measureText(txt);
                             max.x = Math.max(max.x, textMeasurement.width + (parseInt(fontSize) * txt.length));
-                            max.y = Math.max(max.y, (parseInt(fontSize) * txt.length));
+                            max.y = Math.max(max.y, parseInt(fontSize));
                             if (typeof whenDone === "function") {
                                 writing.stop();
                                 whenDone.call();
@@ -140,24 +141,32 @@
                 writeText("&", 5, { x: 400, y: 130, strokeStyle: colors.red, fontSize: "115px" },
                     function () {
                         writeText("Felipe", 4, { x: 450, y: 180 }, function () {
-                            var timeout = window.setTimeout(function () {
-                                window.clearTimeout(timeout);
-                                clear(function () {
-                                    writeText("Metade da vida", 3,
-                                        { x: 150, y: 130, strokeStyle: colors.red, fontSize: "130px" },
-                                        function () {
-                                            writeText("compartilhando", 5,
-                                                { x: 220, y: 215, fillStyle: colors.white, strokeStyle: colors.yellow, fontSize: "90px" },
-                                                function () {
-                                                    writeText("histórias", 3,
-                                                    { x: 185, y: 320, strokeStyle: colors.white, fontSize: "135px" },
+                            writeText("\uf004", 6, { x: 250, y: 310, alpha: 0.4, strokeStyle: colors.red, fontSize: "340px" }, function () {
+                                var timeout = window.setTimeout(function () {
+                                    window.clearTimeout(timeout);
+                                    clear(function () {
+                                        writeText("Metade da vida", 3,
+                                            { x: 150, y: 130, strokeStyle: colors.red, fontSize: "130px" },
+                                            function () {
+                                                writeText("\uf24e", 6, { x: 720, y: 280, strokeStyle: colors.blue, fontSize: "200px" },
                                                     function () {
-
+                                                        writeText("compartilhando", 5,
+                                                            { x: 220, y: 215, fillStyle: colors.yellow, strokeStyle: colors.yellow, fontSize: "90px", alpha: 0.6 },
+                                                            function () {
+                                                                writeText("histórias", 3,
+                                                                { x: 185, y: 320, strokeStyle: colors.white, fontSize: "135px" },
+                                                                function () {
+                                                                    timeout = window.setTimeout(function () {
+                                                                        clear();
+                                                                    }, 1000);
+                                                                });
+                                                            });
                                                     });
-                                                });
-                                        });
-                                });
-                            }, 1000);
+
+                                            });
+                                    });
+                                }, 1000);
+                            })
                         });
                     });
             });
