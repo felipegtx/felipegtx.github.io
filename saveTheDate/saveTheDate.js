@@ -349,7 +349,7 @@
             ["\uf0c7", 6, { x: 40, y: 340, strokeStyle: colors.white, alpha: 1, fontSize: "165px" }],
             ["the date!", 5, { x: 190, y: 280, strokeStyle: colors.white, fontSize: "165px" }],
             ["anote na agenda", 3, { x: 230, y: 350, strokeStyle: colors.red, fontSize: "90px" }],
-            ["24/09/16", 4, { x: 30, y: 550, alpha: 0.5, strokeStyle: colors.yellow, fontSize: "200px" }],
+            ["24/09/16", 4, { x: 30, y: 550, alpha: 0.5, strokeStyle: colors.yellow, fontSize: "200px" }]
         ])
         .then(function () {
             $("#" + idCanvas).click(
