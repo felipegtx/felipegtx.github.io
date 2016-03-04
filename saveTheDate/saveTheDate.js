@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
 
     "use strict";
 
@@ -109,8 +109,8 @@
             max = { x: 0, y: 0 },
 
             /// This will help bring some life into the writing process
-            writing = new buzz.sound("writing.ogg", { preload: true, loop: false, volume: 30, autoplay: false }).load(),
-            erasing = new buzz.sound("eraser.ogg", { preload: true, loop: false, volume: 200, autoplay: false }).load(),
+            writing = new buzz.sound("writing.ogg", { preload: true, loop: true, volume: 30, autoplay: false }).load(),
+            erasing = new buzz.sound("eraser.ogg", { preload: true, loop: true, volume: 200, autoplay: false }).load(),
 
             getRandomArbitrary = function (min, max) {
                 /// <summary>Gets a pseudo-random value between 'min' and 'max'</summary>
@@ -150,9 +150,8 @@
                     window.clearTimeout(timeout);
                     var x = 0, y = 0;
 
-                    erasing.setTime(getRandomArbitrary(1.9, 2));
+                    erasing.unmute().setTime(getRandomArbitrary(1.9, 2));
                     (function erase() {
-                        erasing.play();
                         canvasCtx.globalCompositeOperation = "destination-out";
                         canvasCtx.beginPath();
 
@@ -171,7 +170,7 @@
                             }
                             requestAnimationFrame(erase);
                         } else {
-                            erasing.stop();
+                            erasing.mute();
                             console.log("done");
                             if (typeof whenDone === "function") {
                                 requestAnimationFrame(whenDone);
@@ -186,7 +185,7 @@
 
                 var dashLen = 100,
                     dashOffset = dashLen,
-                    speed = options.speed || 7.5,
+                    speed = options.speed || 10,
                     x = options.x || 10,
                     y = options.y || 90,
                     i = 0,
@@ -211,9 +210,10 @@
 
                 /// This helps the sound of writing onto the chalkboard get a lil random
                 /// thus bringing some extra reallity fell to it
-                writing.setTime(getRandomArbitrary(0.4, 5));
+                if (options.playMusic !== false) {
+                    writing.unmute().setTime(getRandomArbitrary(1.9, 2));
+                }
                 (function loop() {
-                    writing.play();
                     var textM = canvasCtx.measureText(txt[i]);
 
                     canvasCtx.globalAlpha = getRandomArbitrary(defaultAlpha - 0.3, defaultAlpha + 0.1);
@@ -236,7 +236,7 @@
                             var textMeasurement = canvasCtx.measureText(txt);
                             max.x = Math.max(max.x, textMeasurement.width + txt.length + x);
                             max.y = Math.max(max.y, intFontSize + y);
-                            writing.stop();
+                            writing.mute();
                             if (typeof whenDone === "function") {
                                 requestAnimationFrame(whenDone);
                             }
@@ -254,121 +254,138 @@
         canvas.height = windowH;
         canvas.width = windowW;
 
-        /// Call to start the animated text writing process 
         functionChain(writeText,
         [
-            ///* Intro*/
-            ["\uf004", 6, { x: 250, y: 400, alpha: 0.1, lineWidth: 3, strokeStyle: colors.red, fontSize: "390px" }],
-            ["Amanda", 4, { x: 100, y: 190, fontSize: "180px" }],
-            ["&", 5, { x: 400, y: 280, strokeStyle: colors.red, fontSize: "115px" }],
-            ["Felipe", 4, { x: 170, y: 430, fontSize: "180px" }],
-            { "target": clear },
-
-            /* Metade da vida dividindo histórias*/
-            ["Metade da", 3, { x: 100, y: 160, strokeStyle: colors.red, fontSize: "180px" }],
-            ["vida", 3, { x: 110, y: 340, strokeStyle: colors.red, fontSize: "200px" }],
-            ["compartilhando", 7, { x: 450, y: 325, fillStyle: colors.yellow, strokeStyle: colors.yellow, fontSize: "90px", alpha: 0.6 }],
-             {
-                 "target": function (whenDone) {
-                     loadImage("sharing.png", { x: 90, y: 405 }, function () {
-                         var timeout = window.setTimeout(function () {
-                             window.clearTimeout(timeout);
-                             requestAnimationFrame(whenDone);
-                         }, 700);
-                     });
-                 }
-             },
-            ["Histórias", 12, { x: 135, y: 550, fillStyle: colors.white, fontSize: "250px", alpha: 0.7 }],
-            { "target": clear },
-
-            /* 12 anos e 6 meses desde que ele consegui o primeiro beijo*/
-            ["12 anos", 7, { x: 100, y: 200, fillStyle: colors.white, strokeStyle: colors.black, alpha: 0.97, fontSize: "220px" }],
-            ["e 6 meses", 7, { x: 130, y: 320, strokeStyle: colors.blue, fontSize: "130px" }],
-            ["desde o", 7, { x: 200, y: 430, strokeStyle: colors.blue, fontSize: "140px" }],
-            ["primeiro", 3, { x: 90, y: 550, fillStyle: colors.green, strokeStyle: colors.black, fontSize: "200px" }],
-            ["beijo", 4, { x: 200, y: 700, strokeStyle: colors.red, fontSize: "190px" }],
-            {
-                "target": function (whenDone) {
-                    loadImage("kiss.png", { x: 550, y: 450, w: 300, h: 300 }, whenDone);
-                }
-            },
-            { "target": clear },
-
-            /* 6 anos e 6 meses dividindo a escova de dente */
-            ["6", 2, { x: 50, y: 300, fontSize: "420px" }],
-            ["ANOS", 3, { x: 220, y: 180, strokeStyle: colors.blue, fontSize: "165px" }],
-            ["e", 3, { x: 550, y: 180, strokeStyle: colors.red, fontSize: "140px" }],
-            ["6", 2, { x: 50, y: 300, strokeStyle: colors.red, fontSize: "420px" }],
-            ["6", 2, { x: 50, y: 300, strokeStyle: colors.green, fontSize: "420px" }],
-            ["6", 2, { x: 50, y: 300, strokeStyle: colors.blue, fontSize: "420px" }],
-            ["6", 2, { x: 50, y: 300, strokeStyle: colors.yellow, fontSize: "420px" }],
-            ["6", 2, { x: 50, y: 300, strokeStyle: colors.black, fontSize: "420px" }],
-            ["6", 2, { x: 50, y: 300, strokeStyle: colors.white, fontSize: "420px" }],
-            ["meses", 4, { x: 250, y: 280, strokeStyle: colors.white, fontSize: "165px" }],
-            ["dividindo", 5, { x: 150, y: 380, strokeStyle: colors.green, fontSize: "100px" }],
-            ["a", 4, { x: 70, y: 480, strokeStyle: colors.yellow, alpha: 0.5, fontSize: "170px" }],
-            ["escova de", 4, { x: 190, y: 470, alpha: 0.5, strokeStyle: colors.white, fontSize: "100px" }],
-            ["dente", 4, { x: 240, y: 570, alpha: 0.5, strokeStyle: colors.white, fontSize: "100px" }],
-            {
-                "target": function (whenDone) {
-                    loadImage("teeth.png", { x: 520, y: 490, alpha: 1 }, whenDone);
-                }
-            },
-            { "target": clear },
-
-            /*3 anos e 6 meses desde que ela disse sim*/
-            ["3 anos", 7, { x: 200, y: 170, strokeStyle: colors.black, fillStyle: colors.green, fontSize: "165px" }],
-            ["e", 14, { x: 540, y: 185, strokeStyle: colors.black, fillStyle: colors.red, fontSize: "180px" }],
-            ["6", 3, { x: 0, y: 340, fillStyle: colors.white, strokeStyle: colors.black, fontSize: "370px" }],
-            ["meses", 4, { x: 210, y: 310, strokeStyle: colors.white, fontSize: "205px" }],
-            ["desde que", 7, { x: 190, y: 400, fillStyle: colors.blue, strokeStyle: colors.black, fontSize: "110px" }],
-            ["ela", 7, { x: 490, y: 450, fillStyle: colors.yellow, fontSize: "165px" }],
-            ["disse", 7, { x: 50, y: 550, fillStyle: colors.yellow, fontSize: "165px" }],
-            ["SIM!", 2, { x: 270, y: 690, fillStyle: colors.orange, strokeStyle: colors.red, fontSize: "350px" }],
-            {
-                "target": function (whenDone) {
-                    loadImage("fireworks.png", { x: 10, y: 450 }, whenDone);
-                }
-            },
-            { "target": clear },
-
-            /*em 6 meses irão se casar*/
-            ["em", 9, { x: 330, y: 180, fillStyle: colors.white, strokeStyle: colors.black, fontSize: "165px" }],
-            ["6", 15, { x: 10, y: 400, fillStyle: colors.white, strokeStyle: colors.black, alpha: 1, fontSize: "420px" }],
-            ["meses", 15, { x: 340, y: 320, fillStyle: colors.blue, strokeStyle: colors.black, alpha: 1, fontSize: "165px" }],
-            ["irão se casar", 5, { x: 290, y: 410, alpha: 0.5, strokeStyle: colors.yellow, fontSize: "100px" }],
-            {
-                "target": function (whenDone) {
-                    loadImage("marry.png", { x: 10, y: 350, alpha: 1 }, whenDone);
-                }
-            },
-            { "target": clear },
-
-            /*Save the date - 24/09/2016*/
-            ["Save", 5, { x: 90, y: 180, strokeStyle: colors.white, fontSize: "165px" }],
-            ["\uf0c7", 6, { x: 40, y: 340, strokeStyle: colors.white, alpha: 1, fontSize: "165px" }],
-            ["the date!", 5, { x: 190, y: 280, strokeStyle: colors.white, fontSize: "165px" }],
-            ["anote na agenda", 3, { x: 230, y: 350, strokeStyle: colors.red, fontSize: "90px" }],
-            ["24/09/16", 4, { x: 30, y: 550, alpha: 0.5, strokeStyle: colors.yellow, fontSize: "200px" }]
-        ])
-        .then(function () {
-            $("#" + idCanvas).click(
-                function () {
-                    window.open("https://www.google.com/calendar/render?action=" +
-                        "TEMPLATE&text=Casamento - Amanda e Felipe&dates=20160924T120000Z/20160925T120000Z", "googleCalendar");
-                });
-        })
-        .then(function partyDisk() {
-            functionChain(writeText, [
-                    ["\uf0c7", 6, { x: 40, y: 340, strokeStyle: colors.green, alpha: 1, fontSize: "165px" }],
-                    ["\uf0c7", 6, { x: 40, y: 340, strokeStyle: colors.yellow, alpha: 1, fontSize: "165px" }],
-                    ["\uf0c7", 6, { x: 40, y: 340, strokeStyle: colors.red, alpha: 1, fontSize: "165px" }],
-                    ["\uf0c7", 6, { x: 40, y: 340, strokeStyle: colors.black, alpha: 1, fontSize: "165px" }],
-                    ["\uf0c7", 6, { x: 40, y: 340, strokeStyle: colors.blue, alpha: 1, fontSize: "165px" }]
-            ]).then(function () {
-                requestAnimationFrame(partyDisk);
+            ["Você tem", 4, { x: 100, y: 170, fontSize: "200px" }],
+            ["uma", 4, { x: 290, y: 350, fontSize: "200px" }],
+            ["mensagem", 4, { x: 50, y: 550, fontSize: "200px" }],
+            ["Clique aqui para ler", 5, { x: 250, y: 640, strokeStyle: colors.orange, fontSize: "50px" }]
+        ]).then(function () {
+            $("#" + idCanvas).click(function () {
+                writing.play().mute();
+                erasing.play().mute();
+                $("#" + idCanvas).off();
+                clear(message);
             });
-
         });
+
+        /// Call to start the animated text writing process 
+        function message() {
+            functionChain(writeText,
+            [
+                /* Intro*/
+                ["\uf004", 6, { x: 250, y: 400, alpha: 0.1, lineWidth: 3, strokeStyle: colors.red, fontSize: "390px" }],
+                ["Amanda", 4, { x: 100, y: 190, fontSize: "180px" }],
+                ["&", 5, { x: 400, y: 280, strokeStyle: colors.red, fontSize: "115px" }],
+                ["Felipe", 4, { x: 170, y: 430, fontSize: "180px" }],
+                { "target": clear },
+
+                /* Metade da vida dividindo histórias*/
+                ["Metade da", 3, { x: 100, y: 160, strokeStyle: colors.red, fontSize: "180px" }],
+                ["vida", 3, { x: 110, y: 340, strokeStyle: colors.red, fontSize: "200px" }],
+                ["compartilhando", 7, { x: 450, y: 325, fillStyle: colors.yellow, strokeStyle: colors.yellow, fontSize: "90px", alpha: 0.6 }],
+                 {
+                     "target": function (whenDone) {
+                         loadImage("sharing.png", { x: 90, y: 405 }, function () {
+                             var timeout = window.setTimeout(function () {
+                                 window.clearTimeout(timeout);
+                                 requestAnimationFrame(whenDone);
+                             }, 700);
+                         });
+                     }
+                 },
+                ["Histórias", 12, { x: 135, y: 550, fillStyle: colors.white, fontSize: "250px", alpha: 0.7 }],
+                { "target": clear },
+
+                /* 12 anos e 6 meses desde que ele consegui o primeiro beijo*/
+                ["12 anos", 7, { x: 100, y: 200, fillStyle: colors.white, strokeStyle: colors.black, alpha: 0.97, fontSize: "220px" }],
+                ["e 6 meses", 7, { x: 130, y: 320, strokeStyle: colors.blue, fontSize: "130px" }],
+                ["desde o", 7, { x: 200, y: 430, strokeStyle: colors.blue, fontSize: "140px" }],
+                ["primeiro", 3, { x: 90, y: 550, fillStyle: colors.green, strokeStyle: colors.black, fontSize: "200px" }],
+                ["beijo", 4, { x: 200, y: 700, strokeStyle: colors.red, fontSize: "190px" }],
+                {
+                    "target": function (whenDone) {
+                        loadImage("kiss.png", { x: 550, y: 450, w: 300, h: 300 }, whenDone);
+                    }
+                },
+                { "target": clear },
+
+                /* 6 anos e 6 meses dividindo a escova de dente */
+                ["6", 2, { x: 50, y: 300, fontSize: "420px" }],
+                ["ANOS", 3, { x: 220, y: 180, strokeStyle: colors.blue, fontSize: "165px" }],
+                ["e", 3, { x: 550, y: 180, strokeStyle: colors.red, fontSize: "140px" }],
+                ["6", 2, { x: 50, y: 300, strokeStyle: colors.red, fontSize: "420px" }],
+                ["6", 2, { x: 50, y: 300, strokeStyle: colors.green, fontSize: "420px" }],
+                ["6", 2, { x: 50, y: 300, strokeStyle: colors.blue, fontSize: "420px" }],
+                ["6", 2, { x: 50, y: 300, strokeStyle: colors.yellow, fontSize: "420px" }],
+                ["6", 2, { x: 50, y: 300, strokeStyle: colors.black, fontSize: "420px" }],
+                ["6", 2, { x: 50, y: 300, strokeStyle: colors.white, fontSize: "420px" }],
+                ["meses", 4, { x: 250, y: 280, strokeStyle: colors.white, fontSize: "165px" }],
+                ["dividindo", 5, { x: 150, y: 380, strokeStyle: colors.green, fontSize: "100px" }],
+                ["a", 4, { x: 70, y: 480, strokeStyle: colors.yellow, alpha: 0.5, fontSize: "170px" }],
+                ["escova de", 4, { x: 190, y: 470, alpha: 0.5, strokeStyle: colors.white, fontSize: "100px" }],
+                ["dente", 4, { x: 240, y: 570, alpha: 0.5, strokeStyle: colors.white, fontSize: "100px" }],
+                {
+                    "target": function (whenDone) {
+                        loadImage("teeth.png", { x: 520, y: 490, alpha: 1 }, whenDone);
+                    }
+                },
+                { "target": clear },
+
+                /*3 anos e 6 meses desde que ela disse sim*/
+                ["3 anos", 7, { x: 200, y: 170, strokeStyle: colors.black, fillStyle: colors.green, fontSize: "165px" }],
+                ["e", 14, { x: 540, y: 185, strokeStyle: colors.black, fillStyle: colors.red, fontSize: "180px" }],
+                ["6", 3, { x: 0, y: 340, fillStyle: colors.white, strokeStyle: colors.black, fontSize: "370px" }],
+                ["meses", 4, { x: 210, y: 310, strokeStyle: colors.white, fontSize: "205px" }],
+                ["desde que", 7, { x: 190, y: 400, fillStyle: colors.blue, strokeStyle: colors.black, fontSize: "110px" }],
+                ["ela", 7, { x: 490, y: 450, fillStyle: colors.yellow, fontSize: "165px" }],
+                ["disse", 7, { x: 50, y: 550, fillStyle: colors.yellow, fontSize: "165px" }],
+                ["SIM!", 2, { x: 270, y: 690, fillStyle: colors.orange, strokeStyle: colors.red, fontSize: "350px" }],
+                {
+                    "target": function (whenDone) {
+                        loadImage("fireworks.png", { x: 10, y: 450 }, whenDone);
+                    }
+                },
+                { "target": clear },
+
+                /*em 6 meses irão se casar*/
+                ["em", 5, { x: 300, y: 180, strokeStyle: colors.white, fontSize: "165px" }],
+                ["6", 3, { x: 10, y: 430, strokeStyle: colors.white, alpha: 1, fontSize: "520px" }],
+                ["meses", 14, { x: 320, y: 320, fillStyle: colors.orange, strokeStyle: colors.black, alpha: 1, fontSize: "165px" }],
+                ["irão se casar", 5, { x: 290, y: 410, alpha: 0.5, strokeStyle: colors.yellow, fontSize: "100px" }],
+                {
+                    "target": function (whenDone) {
+                        loadImage("marry.png", { x: 10, y: 350, alpha: 1 }, whenDone);
+                    }
+                },
+                { "target": clear },
+
+                /*Save the date - 24/09/2016*/
+                ["Save", 5, { x: 90, y: 180, strokeStyle: colors.white, fontSize: "165px" }],
+                ["\uf0c7", 6, { x: 40, y: 340, strokeStyle: colors.white, alpha: 1, fontSize: "165px" }],
+                ["the date!", 5, { x: 190, y: 280, strokeStyle: colors.white, fontSize: "165px" }],
+                ["anote na agenda", 3, { x: 230, y: 350, strokeStyle: colors.red, fontSize: "90px" }],
+                ["24/09/16", 4, { x: 30, y: 550, alpha: 0.5, strokeStyle: colors.yellow, fontSize: "200px" }]
+            ])
+            .then(function () {
+                $("#" + idCanvas).click(
+                    function () {
+                        window.open("https://www.google.com/calendar/render?action=" +
+                            "TEMPLATE&text=Casamento - Amanda e Felipe&dates=20160924T120000Z/20160925T120000Z", "googleCalendar");
+                    });
+            })
+            .then(function partyDisk() {
+                functionChain(writeText, [
+                        ["\uf0c7", 6, { x: 40, y: 340, playMusic: false, strokeStyle: colors.green, alpha: 1, fontSize: "165px" }],
+                        ["\uf0c7", 6, { x: 40, y: 340, playMusic: false, strokeStyle: colors.yellow, alpha: 1, fontSize: "165px" }],
+                        ["\uf0c7", 6, { x: 40, y: 340, playMusic: false, strokeStyle: colors.red, alpha: 1, fontSize: "165px" }],
+                        ["\uf0c7", 6, { x: 40, y: 340, playMusic: false, strokeStyle: colors.black, alpha: 1, fontSize: "165px" }],
+                        ["\uf0c7", 6, { x: 40, y: 340, playMusic: false, strokeStyle: colors.blue, alpha: 1, fontSize: "165px" }]
+                ]).then(function () {
+                    requestAnimationFrame(partyDisk);
+                });
+
+            });
+        }
     });
 })();
