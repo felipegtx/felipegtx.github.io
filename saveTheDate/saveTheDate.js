@@ -326,18 +326,30 @@
                     loadImage("fireworks.png", { x: 10, y: 450 }, whenDone);
                 }
             },
-            { "target": clear }
+            { "target": clear },
 
             /*em 6 meses irão se casar*/
-            //["em", 8, { x: 200, y: 180, strokeStyle: colors.white, fontSize: "165px" }],
-            //["6", 9, { x: 50, y: 300, strokeStyle: colors.blue, fontSize: "420px" }],
-            //["meses", 8, { x: 250, y: 290, strokeStyle: colors.blue, fontSize: "165px" }],
-            //["irão se casar", 4, { x: 190, y: 470, alpha: 0.5, strokeStyle: colors.white, fontSize: "100px" }],
+            ["em", 9, { x: 330, y: 180, fillStyle: colors.white, strokeStyle: colors.black, fontSize: "165px" }],
+            ["6", 15, { x: 10, y: 400, fillStyle: colors.white, strokeStyle: colors.black, alpha: 1, fontSize: "420px" }],
+            ["meses", 15, { x: 340, y: 320, fillStyle: colors.blue, strokeStyle: colors.black, alpha: 1, fontSize: "165px" }],
+            ["irão se casar", 5, { x: 290, y: 410, alpha: 0.5, strokeStyle: colors.yellow, fontSize: "100px" }],
+            {
+                "target": function (whenDone) {
+                    loadImage("marry.png", { x: 10, y: 350, alpha: 1 }, whenDone);
+                }
+            },
 
             ///*Save the date - 24/09/2016*/
-            //["Save the date!", 8, { x: 200, y: 180, strokeStyle: colors.white, fontSize: "165px" }],
-            //["anote na agenda", 3, { x: 650, y: 190, strokeStyle: colors.red, fontSize: "140px" }],
-            //["24/09/2016", 4, { x: 240, y: 570, alpha: 0.5, strokeStyle: colors.white, fontSize: "100px" }],
+            ["Save", 5, { x: 90, y: 180, strokeStyle: colors.white, fontSize: "165px" }],
+            ["\uf0c7", 6, { x: 40, y: 340, strokeStyle: colors.white, alpha: 1, fontSize: "165px" }],
+            ["the date!", 5, { x: 190, y: 280, strokeStyle: colors.white, fontSize: "165px" }],
+            ["anote na agenda", 3, { x: 230, y: 350, strokeStyle: colors.red, fontSize: "90px" }],
+            ["24/09/16", 4, { x: 30, y: 550, alpha: 0.5, strokeStyle: colors.yellow, fontSize: "200px" }],
+            ["\uf0c7", 6, { x: 40, y: 340, strokeStyle: colors.green, alpha: 1, fontSize: "165px" }],
+            ["\uf0c7", 6, { x: 40, y: 340, strokeStyle: colors.yellow, alpha: 1, fontSize: "165px" }],
+            ["\uf0c7", 6, { x: 40, y: 340, strokeStyle: colors.red, alpha: 1, fontSize: "165px" }],
+            ["\uf0c7", 6, { x: 40, y: 340, strokeStyle: colors.black, alpha: 1, fontSize: "165px" }],
+            ["\uf0c7", 6, { x: 40, y: 340, strokeStyle: colors.blue, alpha: 1, fontSize: "165px" }]
         ]);
     });
 })();
