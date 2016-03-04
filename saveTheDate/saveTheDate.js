@@ -192,7 +192,8 @@
                     i = 0,
                     font = fonts[intFontIndex || 0],
                     fontSize = (options.fontSize || "80px"),
-                    intFontSize = parseInt(fontSize);
+                    intFontSize = parseInt(fontSize),
+                    defaultAlpha = options.alpha || 0.9;
 
                 /// Reset composition to the "default" behaviour
                 canvasCtx.globalCompositeOperation = "source-over";
@@ -202,7 +203,6 @@
                 canvasCtx.font = fontSize + " " + font;
                 canvasCtx.lineWidth = options.lineWidth || 1;
                 canvasCtx.lineJoin = "round";
-                canvasCtx.globalAlpha = options.alpha || 0.9;
 
                 if (options.fillStyle) {
                     canvasCtx.fillStyle = options.fillStyle;
@@ -215,6 +215,8 @@
                 (function loop() {
                     writing.play();
                     var textM = canvasCtx.measureText(txt[i]);
+
+                    canvasCtx.globalAlpha = getRandomArbitrary(defaultAlpha - 0.3, defaultAlpha + 0.1);
                     canvasCtx.clearRect(x, 0, textM.width, fontSize);
                     canvasCtx.setLineDash([dashLen - dashOffset, dashOffset - speed]);
                     dashOffset -= speed;
@@ -271,7 +273,7 @@
                      loadImage("sharing.png", { x: 90, y: 405 }, whenDone);
                  }
              },
-            ["Histórias", 12, { x: 135, y: 550, fillStyle: colors.white, fontSize: "250px", alpha: 0.95 }],
+            ["Histórias", 12, { x: 135, y: 550, fillStyle: colors.white, fontSize: "250px", alpha: 0.7 }],
             { "target": clear },
 
             /* 12 anos e 6 meses desde que ele consegui o primeiro beijo*/
