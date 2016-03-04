@@ -309,14 +309,6 @@
                     loadImage("teeth.png", { x: 520, y: 490, alpha: 1 }, whenDone);
                 }
             },
-            {
-                "target": function (whenDone) {
-                    var timeout = window.setTimeout(function () {
-                        window.clearTimeout(timeout);
-                        loadImage("yaono.png", { x: 0, y: 0, alpha: 0.07 }, whenDone);
-                    }, 1000);
-                }
-            },
             { "target": clear }
 
             /*3 anos e 6 meses desde que ela disse sim*/
