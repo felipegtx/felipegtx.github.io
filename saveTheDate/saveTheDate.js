@@ -22,7 +22,7 @@
 
             getRandomArbitrary = function (min, max) {
                 /// https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Global_Objects/Math/random
-                return Math.trunc(Math.random() * (max - min) + min);
+                return Math.random() * (max - min) + min;
             },
             clear = function (whenDone) {
                 var x = 0,
@@ -31,15 +31,18 @@
                 erasing.setTime(2);
                 (function erase() {
                     erasing.play();
+                    canvasCtx.globalCompositeOperation = "destination-out";
                     canvasCtx.beginPath();
-                    canvasCtx.clearRect(x, y, getRandomArbitrary(209, 211), getRandomArbitrary(39, 41))
+                    canvasCtx.globalAlpha = getRandomArbitrary(0.95, 0.99);
+                    canvasCtx.fillStyle = canvasCtx.strokeStyle = "black";
+                    canvasCtx.fillRect(x, y, getRandomArbitrary(210, 211), getRandomArbitrary(40, 41));
                     canvasCtx.stroke();
                     if (y < max.y) {
                         if (x >= max.x) {
-                            y += getRandomArbitrary(39, 41);
+                            y += getRandomArbitrary(40, 41);
                             x = 0;
                         } else {
-                            x += getRandomArbitrary(209, 211);
+                            x += getRandomArbitrary(210, 211);
                         }
                         requestAnimationFrame(erase);
                     } else {
