@@ -13,11 +13,27 @@
                 ///     {"target":youFunctionTM, "parameters":[OptionalArray]}
                 /// </summary>
 
-                var whatNext = null,
+                var whatNext = [],
                     isFunction = function (f) {
                         return (typeof f === "function");
                     },
-                    isValid = isFunction(fnc);
+                    isValid = isFunction(fnc),
+                    $this = {
+                        then: function (what) {
+                            /// <summary>I promisse I'll call you (maybe)</summary>
+
+                            if (isFunction(what)) {
+                                if (isValid === false) {
+                                    requestAnimationFrame(what);
+                                } else {
+                                    whatNext.push(what);
+                                }
+                            }
+
+                            return $this;
+                        }
+                    };
+
                 if (isValid === true) {
 
                     var currentIndex = 0,
@@ -26,8 +42,8 @@
 
                             /// Are we there yet?
                             if (currentIndex >= maxIndex) {
-                                if (whatNext !== null) {
-                                    whatNext.call();
+                                for (var i = 0; i < whatNext.length; i++) {
+                                    whatNext[i].call();
                                 }
                                 return;
                             }
@@ -58,19 +74,7 @@
                     moveNext();
                 }
 
-                return {
-                    then: function (what) {
-                        /// <summary>I promisse I'll call you (maybe)</summary>
-
-                        if (isFunction(what)) {
-                            if (isValid === false) {
-                                requestAnimationFrame(what);
-                            } else {
-                                whatNext = what;
-                            }
-                        }
-                    }
-                }
+                return $this;
             },
             canvas = document.getElementById(idCanvas),
             windowH = $(window).height(),
@@ -253,7 +257,7 @@
         /// Call to start the animated text writing process 
         functionChain(writeText,
         [
-            /* Intro*/
+            ///* Intro*/
             ["\uf004", 6, { x: 250, y: 400, alpha: 0.1, lineWidth: 3, strokeStyle: colors.red, fontSize: "390px" }],
             ["Amanda", 4, { x: 100, y: 190, fontSize: "180px" }],
             ["&", 5, { x: 400, y: 280, strokeStyle: colors.red, fontSize: "115px" }],
@@ -338,18 +342,33 @@
                     loadImage("marry.png", { x: 10, y: 350, alpha: 1 }, whenDone);
                 }
             },
+            { "target": clear },
 
-            ///*Save the date - 24/09/2016*/
+            /*Save the date - 24/09/2016*/
             ["Save", 5, { x: 90, y: 180, strokeStyle: colors.white, fontSize: "165px" }],
             ["\uf0c7", 6, { x: 40, y: 340, strokeStyle: colors.white, alpha: 1, fontSize: "165px" }],
             ["the date!", 5, { x: 190, y: 280, strokeStyle: colors.white, fontSize: "165px" }],
             ["anote na agenda", 3, { x: 230, y: 350, strokeStyle: colors.red, fontSize: "90px" }],
             ["24/09/16", 4, { x: 30, y: 550, alpha: 0.5, strokeStyle: colors.yellow, fontSize: "200px" }],
-            ["\uf0c7", 6, { x: 40, y: 340, strokeStyle: colors.green, alpha: 1, fontSize: "165px" }],
-            ["\uf0c7", 6, { x: 40, y: 340, strokeStyle: colors.yellow, alpha: 1, fontSize: "165px" }],
-            ["\uf0c7", 6, { x: 40, y: 340, strokeStyle: colors.red, alpha: 1, fontSize: "165px" }],
-            ["\uf0c7", 6, { x: 40, y: 340, strokeStyle: colors.black, alpha: 1, fontSize: "165px" }],
-            ["\uf0c7", 6, { x: 40, y: 340, strokeStyle: colors.blue, alpha: 1, fontSize: "165px" }]
-        ]);
+        ])
+        .then(function () {
+            $("#" + idCanvas).click(
+                function () {
+                    window.open("https://www.google.com/calendar/render?action=" +
+                        "TEMPLATE&text=Casamento - Amanda e Felipe&dates=20160924T120000Z/20160925T120000Z", "googleCalendar");
+                });
+        })
+        .then(function partyDisk() {
+            functionChain(writeText, [
+                    ["\uf0c7", 6, { x: 40, y: 340, strokeStyle: colors.green, alpha: 1, fontSize: "165px" }],
+                    ["\uf0c7", 6, { x: 40, y: 340, strokeStyle: colors.yellow, alpha: 1, fontSize: "165px" }],
+                    ["\uf0c7", 6, { x: 40, y: 340, strokeStyle: colors.red, alpha: 1, fontSize: "165px" }],
+                    ["\uf0c7", 6, { x: 40, y: 340, strokeStyle: colors.black, alpha: 1, fontSize: "165px" }],
+                    ["\uf0c7", 6, { x: 40, y: 340, strokeStyle: colors.blue, alpha: 1, fontSize: "165px" }]
+            ]).then(function () {
+                requestAnimationFrame(partyDisk);
+            });
+
+        });
     });
 })();
