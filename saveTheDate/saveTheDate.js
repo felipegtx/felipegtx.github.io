@@ -256,10 +256,10 @@
 
         functionChain(writeText,
         [
-            ["Você tem", 4, { x: 100, y: 170, fontSize: "200px" }],
-            ["uma", 4, { x: 290, y: 350, fontSize: "200px" }],
-            ["mensagem", 4, { x: 50, y: 550, fontSize: "200px" }],
-            ["Clique aqui para ler", 5, { x: 250, y: 640, strokeStyle: colors.orange, fontSize: "50px" }]
+            ["Você tem", 4, { x: 80, y: 170, fontSize: "200px" }],
+            ["uma", 4, { x: 210, y: 350, fontSize: "200px" }],
+            ["mensagem", 4, { x: 5, y: 550, fontSize: "200px" }],
+            ["Clique aqui para ler", 5, { x: 230, y: 640, strokeStyle: colors.orange, fontSize: "50px" }]
         ]).then(function () {
             $("#" + idCanvas).click(function () {
                 writing.play().mute();
