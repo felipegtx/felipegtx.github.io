@@ -182,7 +182,7 @@
 
                 var dashLen = 100,
                     dashOffset = dashLen,
-                    speed = options.speed || 100,//7.5,
+                    speed = options.speed || 7.5,
                     x = options.x || 10,
                     y = options.y || 90,
                     i = 0,
