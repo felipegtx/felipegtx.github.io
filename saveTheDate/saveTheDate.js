@@ -166,8 +166,8 @@
         canvas.height = windowH - 20;
         canvas.width = windowW - 20;
 
-        v2();
-        return;
+        //v2();
+        //return;
         writeText("Amanda", 4, { x: 100, y: 190, fontSize: "180px" },
             function () {
                 writeText("&", 5, { x: 400, y: 280, strokeStyle: colors.red, fontSize: "115px" },
