@@ -33,31 +33,26 @@
                             }
 
                             /// Move forward into the execution chain...
-                            var rawParameter = args[currentIndex],
-                                currentArguments = null;
+                            var rawParameter = args[currentIndex++];
 
                             /// If the target function is the default one...
                             if (Array.isArray(rawParameter)) {
-                                currentArguments = args[currentIndex];
-                                currentArguments.push(moveNext);
-                                fnc.apply(undefined, currentArguments);
+                                rawParameter.push(moveNext);
+                                fnc.apply(undefined, rawParameter);
                             } else {
 
                                 /// If we need to change thinks a little
                                 var target = rawParameter["target"];
                                 if (isFunction(target)) {
-                                    currentArguments = Array.isArray(rawParameter["parameters"]) ?
-                                        rawParameter["parameters"] :
-                                        [];
+                                    var currentArguments = Array.isArray(rawParameter["parameters"])
+                                        ? rawParameter["parameters"]
+                                        : [];
                                     currentArguments.push(moveNext);
                                     target.apply(undefined, currentArguments);
                                 } else {
                                     throw { error: "Invalid object structure" };
                                 }
                             }
-
-                            /// Move ahead
-                            currentIndex++;
                         };
 
                     moveNext();
@@ -102,7 +97,8 @@
             colors = {
                 red: "#FFAAAA", white: "White",
                 green: "#7CBB91", yellow: "#FFF8AA",
-                blue: "#6B949E", black: "gray"
+                blue: "#6B949E", black: "gray",
+                orange: "#FFD5AA"
             },
 
             canvasCtx = canvas.getContext("2d"),
@@ -186,7 +182,7 @@
 
                 var dashLen = 100,
                     dashOffset = dashLen,
-                    speed = options.speed || 7.5,
+                    speed = options.speed || 100,//7.5,
                     x = options.x || 10,
                     y = options.y || 90,
                     i = 0,
@@ -304,7 +300,7 @@
             ["6", 2, { x: 50, y: 300, strokeStyle: colors.yellow, fontSize: "420px" }],
             ["6", 2, { x: 50, y: 300, strokeStyle: colors.black, fontSize: "420px" }],
             ["6", 2, { x: 50, y: 300, strokeStyle: colors.white, fontSize: "420px" }],
-            ["meses", 4, { x: 250, y: 280, strokeStyle: colors.blue, fontSize: "165px" }],
+            ["meses", 4, { x: 250, y: 280, strokeStyle: colors.white, fontSize: "165px" }],
             ["dividindo", 5, { x: 150, y: 380, strokeStyle: colors.green, fontSize: "100px" }],
             ["a", 4, { x: 70, y: 480, strokeStyle: colors.yellow, alpha: 0.5, fontSize: "170px" }],
             ["escova de", 4, { x: 190, y: 470, alpha: 0.5, strokeStyle: colors.white, fontSize: "100px" }],
@@ -317,18 +313,31 @@
             { "target": clear }
 
             /*3 anos e 6 meses desde que ela disse sim*/
-            //["3 anos", 6, { x: 220, y: 180, strokeStyle: colors.white, fontSize: "165px" }],
-            //["e", 3, { x: 650, y: 190, strokeStyle: colors.red, fontSize: "140px" }],
-            //["6", 9, { x: 50, y: 300, strokeStyle: colors.blue, fontSize: "420px" }],
-            //["meses", 8, { x: 250, y: 290, strokeStyle: colors.blue, fontSize: "165px" }],
-            //["desde que", 5, { x: 150, y: 380, strokeStyle: colors.blue, fontSize: "100px" }],
-            //["ela", 4, { x: 50, y: 480, strokeStyle: colors.yellow, alpha: 0.5, fontSize: "165px" }],
-            //["disse", 4, { x: 190, y: 470, alpha: 0.5, strokeStyle: colors.white, fontSize: "100px" }],
-            //["SIM!", 4, { x: 240, y: 570, alpha: 0.5, strokeStyle: colors.white, fontSize: "100px" }],
-            //{ "target": clear }
+            ["3 anos", 7, { x: 200, y: 170, strokeStyle: colors.black, fillStyle: colors.green, fontSize: "165px" }],
+            ["e", 14, { x: 540, y: 185, strokeStyle: colors.black, fillStyle: colors.red, fontSize: "180px" }],
+            ["6", 3, { x: 0, y: 340, fillStyle: colors.white, strokeStyle: colors.black, fontSize: "370px" }],
+            ["meses", 4, { x: 210, y: 310, strokeStyle: colors.white, fontSize: "205px" }],
+            ["desde que", 7, { x: 190, y: 400, fillStyle: colors.blue, strokeStyle: colors.black, fontSize: "110px" }],
+            ["ela", 7, { x: 490, y: 450, fillStyle: colors.yellow, fontSize: "165px" }],
+            ["disse", 7, { x: 50, y: 550, fillStyle: colors.yellow, fontSize: "165px" }],
+            ["SIM!", 2, { x: 270, y: 690, fillStyle: colors.orange, strokeStyle: colors.red, fontSize: "350px" }],
+            {
+                "target": function (whenDone) {
+                    loadImage("fireworks.png", { x: 10, y: 450 }, whenDone);
+                }
+            },
+            { "target": clear }
 
             /*em 6 meses irão se casar*/
-            /*Save the date - 24/09/2016*/
+            //["em", 8, { x: 200, y: 180, strokeStyle: colors.white, fontSize: "165px" }],
+            //["6", 9, { x: 50, y: 300, strokeStyle: colors.blue, fontSize: "420px" }],
+            //["meses", 8, { x: 250, y: 290, strokeStyle: colors.blue, fontSize: "165px" }],
+            //["irão se casar", 4, { x: 190, y: 470, alpha: 0.5, strokeStyle: colors.white, fontSize: "100px" }],
+
+            ///*Save the date - 24/09/2016*/
+            //["Save the date!", 8, { x: 200, y: 180, strokeStyle: colors.white, fontSize: "165px" }],
+            //["anote na agenda", 3, { x: 650, y: 190, strokeStyle: colors.red, fontSize: "140px" }],
+            //["24/09/2016", 4, { x: 240, y: 570, alpha: 0.5, strokeStyle: colors.white, fontSize: "100px" }],
         ]);
     });
 })();
