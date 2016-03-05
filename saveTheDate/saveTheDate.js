@@ -109,8 +109,8 @@
             max = { x: 0, y: 0 },
 
             /// This will help bring some life into the writing process
-            writing = new buzz.sound("writing", { formats: ["ogg", "mp3"], preload: true, loop: true, volume: 30, autoplay: false }).load(),
-            erasing = new buzz.sound("eraser", { formats: ["ogg", "mp3"], preload: true, loop: true, volume: 200, autoplay: false }).load(),
+            writing = new buzz.sound("writing", { formats: ["ogg", "mp3"], preload: true, loop: true, volume: 0, autoplay: false }).load(),
+            erasing = new buzz.sound("eraser", { formats: ["ogg", "mp3"], preload: true, loop: true, volume: 0, autoplay: false }).load(),
 
             getRandomArbitrary = function (min, max) {
                 /// <summary>Gets a pseudo-random value between 'min' and 'max'</summary>
@@ -150,7 +150,7 @@
                     window.clearTimeout(timeout);
                     var x = 0, y = 0;
 
-                    erasing.unmute().setTime(getRandomArbitrary(1.9, 2));
+                    erasing.unmute().setVolume(200).setTime(getRandomArbitrary(1.9, 2));
                     (function erase() {
                         canvasCtx.globalCompositeOperation = "destination-out";
                         canvasCtx.beginPath();
@@ -211,7 +211,7 @@
                 /// This helps the sound of writing onto the chalkboard get a lil random
                 /// thus bringing some extra reallity fell to it
                 if (options.playMusic !== false) {
-                    writing.unmute().setTime(getRandomArbitrary(1.9, 2));
+                    writing.unmute().setVolume(200).setTime(getRandomArbitrary(1.9, 2));
                 }
                 (function loop() {
                     var textM = canvasCtx.measureText(txt[i]);
@@ -262,8 +262,8 @@
             ["Clique aqui para ler", 5, { x: 230, y: 660, strokeStyle: colors.orange, fontSize: "50px" }]
         ]).then(function () {
             $("#" + idCanvas).click(function () {
-                writing.play().mute();
-                erasing.play().mute();
+                writing.play().setVolume(0).mute();
+                erasing.play().setVolume(0).mute();
                 $("#" + idCanvas).off();
                 clear(message);
             });
