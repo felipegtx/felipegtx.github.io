@@ -5,6 +5,7 @@
     $(window).load(function () {
 
         var idCanvas = "cnvSaveTheDate",
+            isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
             functionChain = function (fnc, args) {
                 /// <summary>
                 /// Once upon a time the code was REALLY ugly. Then came this function to solve the problem.
@@ -150,8 +151,11 @@
                     window.clearTimeout(timeout);
                     var x = 0, y = 0;
 
-                    erasing.unmute().setTime(getRandomArbitrary(1.9, 2));
+                    erasing.setTime(getRandomArbitrary(1.9, 2));
                     (function erase() {
+                        if (isMobile === false) {
+                            erasing.play();
+                        }
                         canvasCtx.globalCompositeOperation = "destination-out";
                         canvasCtx.beginPath();
 
@@ -170,7 +174,7 @@
                             }
                             requestAnimationFrame(erase);
                         } else {
-                            erasing.mute();
+                            erasing.stop();
                             console.log("done");
                             if (typeof whenDone === "function") {
                                 requestAnimationFrame(whenDone);
@@ -210,12 +214,12 @@
 
                 /// This helps the sound of writing onto the chalkboard get a lil random
                 /// thus bringing some extra reallity fell to it
-                if (options.playMusic !== false) {
-                    writing.unmute().setTime(getRandomArbitrary(1.9, 2));
-                }
+                writing.setTime(getRandomArbitrary(1.9, 2));
                 (function loop() {
                     var textM = canvasCtx.measureText(txt[i]);
-
+                    if ((options.playMusic !== false) && (isMobile === false)) {
+                        writing.play();
+                    }
                     canvasCtx.globalAlpha = getRandomArbitrary(defaultAlpha - 0.3, defaultAlpha + 0.1);
                     canvasCtx.clearRect(x, 0, textM.width, fontSize);
                     canvasCtx.setLineDash([dashLen - dashOffset, dashOffset - speed]);
@@ -236,7 +240,7 @@
                             var textMeasurement = canvasCtx.measureText(txt);
                             max.x = Math.max(max.x, textMeasurement.width + txt.length + x);
                             max.y = Math.max(max.y, intFontSize + y);
-                            writing.mute();
+                            writing.stop();
                             if (typeof whenDone === "function") {
                                 requestAnimationFrame(whenDone);
                             }
@@ -262,8 +266,6 @@
             ["Clique aqui para ler", 5, { x: 230, y: 660, strokeStyle: colors.orange, fontSize: "50px" }]
         ]).then(function () {
             $("#" + idCanvas).click(function () {
-                writing.play().mute();
-                erasing.play().mute();
                 $("#" + idCanvas).off();
                 clear(message);
             });
