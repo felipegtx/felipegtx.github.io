@@ -109,8 +109,8 @@
             max = { x: 0, y: 0 },
 
             /// This will help bring some life into the writing process
-            writing = new buzz.sound("writing.ogg", { preload: true, loop: true, volume: 30, autoplay: false }).load(),
-            erasing = new buzz.sound("eraser.ogg", { preload: true, loop: true, volume: 200, autoplay: false }).load(),
+            writing = new buzz.sound("writing", { formats: ["ogg", "mp3"], preload: true, loop: true, volume: 30, autoplay: false }).load(),
+            erasing = new buzz.sound("eraser", { formats: ["ogg", "mp3"], preload: true, loop: true, volume: 200, autoplay: false }).load(),
 
             getRandomArbitrary = function (min, max) {
                 /// <summary>Gets a pseudo-random value between 'min' and 'max'</summary>
